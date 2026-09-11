@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Contact Queries</h2>
+<table class="table">
+  <thead><tr><th>Name</th><th>Email</th><th>Message</th><th>Status</th><th></th></tr></thead>
+  <tbody>
+    {% for q in queries %}
+    <tr>
+      <td>{{ q.name }}</td>
+      <td>{{ q.email }}</td>
+      <td>{{ q.message }}</td>
+      <td>{{ "Resolved" if q.is_resolved else "Open" }}</td>
+      <td>
+        {% if not q.is_resolved %}
+        <form method="post" action="{{ url_for('admin.resolve_query', query_id=q.id) }}">
+          <button class="btn btn-sm btn-success">Resolve</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

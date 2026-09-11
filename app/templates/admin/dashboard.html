@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<div class="row">
+  <div class="col-md-3"><div class="card p-3"><h5>Users</h5><h2>{{ counts.users }}</h2></div></div>
+  <div class="col-md-3"><div class="card p-3"><h5>Bookings</h5><h2>{{ counts.bookings }}</h2></div></div>
+  <div class="col-md-3"><div class="card p-3"><h5>Subscribers</h5><h2>{{ counts.subscribers }}</h2></div></div>
+  <div class="col-md-3"><div class="card p-3"><h5>Open Queries</h5><h2>{{ counts.open_queries }}</h2></div></div>
+</div>
+<ul class="mt-4">
+  <li><a href="{{ url_for('admin.users') }}">Manage Users</a></li>
+  <li><a href="{{ url_for('admin.page_content') }}">Edit Page Content</a></li>
+  <li><a href="{{ url_for('admin.testimonials') }}">Moderate Testimonials</a></li>
+  <li><a href="{{ url_for('admin.queries') }}">Contact Queries</a></li>
+</ul>
+{% endblock %}

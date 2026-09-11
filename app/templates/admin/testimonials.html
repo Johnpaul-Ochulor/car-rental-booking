@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Testimonials</h2>
+<table class="table">
+  <thead><tr><th>User</th><th>Message</th><th>Rating</th><th>Status</th><th></th></tr></thead>
+  <tbody>
+    {% for t in testimonials %}
+    <tr>
+      <td>{{ t.user.name }}</td>
+      <td>{{ t.message }}</td>
+      <td>{{ t.rating }}</td>
+      <td>{{ t.status }}</td>
+      <td>
+        <form method="post" action="{{ url_for('admin.toggle_testimonial', testimonial_id=t.id) }}">
+          <button class="btn btn-sm btn-outline-secondary">
+            {{ "Deactivate" if t.status == "active" else "Activate" }}
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
