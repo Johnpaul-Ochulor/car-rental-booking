@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+instance/config.py
+car_rental.db
+migrations/
+.env
