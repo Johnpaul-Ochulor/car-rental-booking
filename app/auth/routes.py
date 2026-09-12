@@ -28,6 +28,8 @@ def register():
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
+        if current_user.is_admin():
+            return redirect(url_for('admin.dashboard'))
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():

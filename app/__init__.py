@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,redirect,url_for
 from app.extensions import db, login_manager, migrate
 from app.models import User
 
@@ -17,12 +17,11 @@ def create_app():
     login_manager.login_message_category = 'info'
     migrate.init_app(app, db)
 
-    # Import and register your auth blueprint
     from app.auth.routes import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
     @app.route('/')
     def index():
-        return "<h1>FAST CARS Rental System Workspace Active</h1>"
+        return redirect(url_for('auth.login'))
 
     return app
