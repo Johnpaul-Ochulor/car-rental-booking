@@ -25,12 +25,14 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         if current_user.is_admin():
-            return redirect(url_for('admin.dashboard'))
-        return redirect(url_for('index'))
+            return redirect(url_for('admin.dashboard')) # Ensure admin route exists or update accordingly[cite: 4]
+        return redirect(url_for('auth.index')) # <-- Changed from main.index[cite: 4]
+    
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -38,7 +40,7 @@ def login():
             login_user(user, remember=form.remember.data)
             flash('Logged in successfully!', 'success')
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('index'))
+            return redirect(next_page) if next_page else redirect(url_for('auth.index')) # <-- Changed from index[cite: 4]
         else:
             flash('Login unsuccessful. Please check email and password.', 'danger')
     return render_template('auth/login.html', form=form)
@@ -48,7 +50,7 @@ def login():
 def logout():
     logout_user()
     flash('You have been logged out.', 'info')
-    return redirect(url_for('index'))
+    return redirect(url_for('auth.login'))
 
 @auth_bp.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -80,4 +82,9 @@ def change_password():
         else:
             flash('Incorrect current password.', 'danger')
     return render_template('auth/change_password.html', form=form)
+
+
+@auth_bp.route('/')
+def index():
+    return render_template('home.html')
 
