@@ -23,5 +23,10 @@ def create_app():
     @app.route('/')
     def index():
         return redirect(url_for('auth.index'))
+    
+    
+    
+
+
 
     return app
