@@ -1,67 +1,69 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0">Create an Account</h3>
-                </div>
-                <div class="card-body">
-                    <form method="POST" action="{{ url_for('auth.register') }}">
-                        {{ form.hidden_tag() }}
-                        
-                        <div class="mb-3">
-                            {{ form.name.label(class="form-label") }}
-                            {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
-                            {% for error in form.name.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.email.label(class="form-label") }}
-                            {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
-                            {% for error in form.email.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.phone.label(class="form-label") }}
-                            {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else "")) }}
-                            {% for error in form.phone.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.password.label(class="form-label") }}
-                            {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else "")) }}
-                            {% for error in form.password.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form.confirm_password.label(class="form-label") }}
-                            {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else "")) }}
-                            {% for error in form.confirm_password.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="d-grid">
-                            {{ form.submit(class="btn btn-primary") }}
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer text-center">
-                    <small>Already have an account? <a href="{{ url_for('auth.login') }}">Log In</a></small>
-                </div>
-            </div>
+<div class="container d-flex align-items-center justify-content-center min-vh-100 py-5">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
+        
+        <div class="text-center mb-4">
+            <h2 class="fw-light text-light mb-1">Create Your</h2>
+            <h1 class="fw-bold text-white tracking-wide fs-2">FAST CARS Account</h1>
         </div>
+
+        <div class="auth-card">
+            <h3 class="text-center fw-bold text-white mb-4 tracking-wider">SIGN UP</h3>
+
+            <form method="POST" action="{{ url_for('auth.register') }}">
+                {{ form.hidden_tag() }}
+
+                <!-- Full Name -->
+                <div class="mb-3 auth-input-group">
+                    <i class="bi bi-person input-icon"></i>
+                    {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else ""), placeholder="Full Name") }}
+                    {% for error in form.name.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3 auth-input-group">
+                    <i class="bi bi-envelope input-icon"></i>
+                    {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else ""), placeholder="Email") }}
+                    {% for error in form.email.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-3 auth-input-group">
+                    <i class="bi bi-telephone input-icon"></i>
+                    {{ form.phone(class="form-control" + (" is-invalid" if form.phone.errors else ""), placeholder="Phone Number") }}
+                    {% for error in form.phone.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3 auth-input-group">
+                    <i class="bi bi-lock input-icon"></i>
+                    {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else ""), placeholder="Password") }}
+                    {% for error in form.password.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Sign Up Button -->
+                <div class="d-grid gap-2 my-4">
+                    {{ form.submit(class="btn btn-red-action text-uppercase", value="Sign Up") }}
+                </div>
+
+                <!-- Sign In Link -->
+                <div class="text-center text-slate-300 fs-7">
+                    Already have an account? 
+                    <a href="{{ url_for('auth.login') }}" class="accent-link">Sign In</a>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 {% endblock %}

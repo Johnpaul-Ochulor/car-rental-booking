@@ -1,0 +1,101 @@
+/* Base Page & Background */
+body.auth-bg {
+    background: linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.88)),
+                url('/static/images/car-bg.jpg') center/cover no-repeat fixed;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #f8fafc;
+}
+
+/*Auth Card */
+.auth-card {
+    background: rgba(30, 41, 59, 0.65);
+    max-height: 75vh;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    padding: 2.5rem 2rem;
+}
+
+/* Red Accent Input Fields */
+.auth-input-group .form-control {
+    background-color: rgba(15, 23, 42, 0.7);
+    border: 1.5px solid #ff2b4a;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 0.75rem 1rem 0.75rem 2.8rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.auth-input-group .form-control:focus {
+    background-color: rgba(15, 23, 42, 0.9);
+    border-color: #ff0022;
+    box-shadow: 0 0 10px rgba(255, 43, 74, 0.4);
+    color: #ffffff;
+}
+
+.auth-input-group {
+    position: relative;
+}
+
+.auth-input-group .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    z-index: 4;
+}
+
+/* Primary Action Button */
+.btn-red-action {
+    background: linear-gradient(135deg, #ff3b56 0%, #ff0022 100%);
+    border: none;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    padding: 0.8rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-red-action:hover {
+    background: linear-gradient(135deg, #ff4d66 0%, #e6001e 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255, 0, 34, 0.4);
+    color: #ffffff;
+}
+
+/* Links & Accents */
+.accent-link {
+    color: #ff3b56;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.accent-link:hover {
+    color: #ff6b81;
+    text-decoration: underline;
+}
+
+/* Social Buttons */
+.btn-social {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-radius: 8px;
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.btn-social:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}

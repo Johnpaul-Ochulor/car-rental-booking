@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100 py-5">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
+        
+        <div class="text-center mb-4">
+            <h2 class="fw-light text-light mb-1">Set New Password</h2>
+            <h1 class="fw-bold text-white tracking-wide">FAST CARS</h1>
+        </div>
+
+        <div class="auth-card">
+            <h3 class="text-center fw-bold text-white mb-4 tracking-wider">NEW PASSWORD</h3>
+
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+
+                <!-- New Password -->
+                <div class="mb-3 auth-input-group">
+                    <i class="bi bi-lock input-icon"></i>
+                    {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else ""), placeholder="New Password") }}
+                    {% for error in form.password.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Confirm New Password -->
+                <div class="mb-3 auth-input-group">
+                    <i class="bi bi-lock-fill input-icon"></i>
+                    {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else ""), placeholder="Confirm New Password") }}
+                    {% for error in form.confirm_password.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid gap-2 my-4">
+                    {{ form.submit(class="btn btn-red-action text-uppercase", value="Reset Password") }}
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

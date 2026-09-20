@@ -2,11 +2,14 @@ from flask import Flask,redirect,url_for
 from app.extensions import db, login_manager, migrate
 from app.models import User
 import click
+from flask_mail import Mail, Message
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -50,7 +53,7 @@ def create_app():
         db.session.commit()
         click.echo(f'Admin account created for {email}!')
     
-
+    mail.init_app(app)
 
 
     return app
