@@ -2,6 +2,8 @@ from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.extensions import db
+from itsdangerous import URLSafeTimedSerializer as Serializer
+from flask import current_app
 
 
 class User(UserMixin, db.Model):
@@ -32,6 +34,19 @@ class User(UserMixin, db.Model):
 
     def is_admin(self):
         return self.role == "admin"
+    
+    def get_reset_token(self):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id})
+    
+    @staticmethod
+    def verify_reset_token(token,expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token, max_age=expires_sec)['user_id']
+        except Exception:
+            return None
+        return User.query.get(user_id)
 
 
 class VehicleBrand(db.Model):
@@ -114,3 +129,5 @@ class PageContent(db.Model):
     page_key = db.Column(db.String(50), unique=True, nullable=False)  # 'home', 'about', 'contact'
     content = db.Column(db.Text)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    
+    

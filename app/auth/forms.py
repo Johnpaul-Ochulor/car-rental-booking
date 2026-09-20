@@ -40,3 +40,5 @@ class ChangePasswordForm(FlaskForm):
     new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=6)])
     confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('Change Password')
+    
+    

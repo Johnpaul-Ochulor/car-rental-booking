@@ -1,6 +1,7 @@
 from flask import Flask,redirect,url_for
 from app.extensions import db, login_manager, migrate
 from app.models import User
+import click
 
 
 @login_manager.user_loader
@@ -25,6 +26,29 @@ def create_app():
         return redirect(url_for('auth.index'))
     
     
+    @app.cli.command('create-admin')
+    @click.argument('name')
+    @click.argument('email')
+    @click.argument('phone')
+    @click.argument('password')
+    def create_admin(name, email, phone, password):
+        """Creates a new admin user."""
+        user = User.query.filter_by(email=email).first()
+        if user:
+            click.echo('Error: Email already exists.')
+            return
+
+        admin = User(
+            name=name,
+            email=email,
+            phone=phone,
+            role='admin'
+        )
+        admin.set_password(password)
+        
+        db.session.add(admin)
+        db.session.commit()
+        click.echo(f'Admin account created for {email}!')
     
 
 
