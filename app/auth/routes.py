@@ -89,7 +89,8 @@ def change_password():
 
 @auth_bp.route('/')
 def index():
-    return render_template('home.html')
+    
+    return render_template('auth/login.html', form=form)
 
 
 def send_reset_email(user):
