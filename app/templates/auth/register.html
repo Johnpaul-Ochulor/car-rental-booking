@@ -42,7 +42,7 @@
                     {% endfor %}
                 </div>
 
-                <!-- Password -->
+                 <!-- Password -->
                 <div class="mb-3 auth-input-group">
                     <i class="bi bi-lock input-icon"></i>
                     {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else ""), placeholder="Password") }}
@@ -50,6 +50,17 @@
                         <div class="invalid-feedback d-block">{{ error }}</div>
                     {% endfor %}
                 </div>
+
+                <!-- Confirm Password -->
+                <div class="mb-3 auth-input-group">
+                    <i class="bi bi-lock input-icon"></i>
+                    {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else ""), placeholder="Confirm Password") }}
+{% for error in form.confirm_password.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+               
 
                 <!-- Sign Up Button -->
                 <div class="d-grid gap-2 my-4">

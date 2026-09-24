@@ -1,9 +1,9 @@
 from datetime import datetime
+from flask import current_app
 from flask_login import UserMixin
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.extensions import db
-from itsdangerous import URLSafeTimedSerializer as Serializer
-from flask import current_app
 
 
 class User(UserMixin, db.Model):
@@ -14,15 +14,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     phone = db.Column(db.String(20))
-    role = db.Column(db.String(20), default="user", nullable=False) 
-    def is_admin(self):
-        return self.role == 'admin'
-    def is_customer(self):
-        return self.role == 'user'
-    
+    role = db.Column(db.String(20), default="user", nullable=False)
     is_active = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relationships
     bookings = db.relationship("Booking", backref="user", lazy=True)
     testimonials = db.relationship("Testimonial", backref="user", lazy=True)
 
@@ -33,14 +29,17 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, raw_password)
 
     def is_admin(self):
-        return self.role == "admin"
-    
+        return self.role == 'admin'
+
+    def is_customer(self):
+        return self.role == 'user'
+
     def get_reset_token(self):
         s = Serializer(current_app.config['SECRET_KEY'])
         return s.dumps({'user_id': self.id})
-    
+
     @staticmethod
-    def verify_reset_token(token,expires_sec=1800):
+    def verify_reset_token(token, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             user_id = s.loads(token, max_age=expires_sec)['user_id']
@@ -98,7 +97,7 @@ class Testimonial(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     message = db.Column(db.Text, nullable=False)
-    rating = db.Column(db.Integer)
+    rating = db.Column(db.Integer, nullable=False, default=5)
     status = db.Column(db.String(20), default="active")  # active/inactive
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -129,5 +128,3 @@ class PageContent(db.Model):
     page_key = db.Column(db.String(50), unique=True, nullable=False)  # 'home', 'about', 'contact'
     content = db.Column(db.Text)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
-    

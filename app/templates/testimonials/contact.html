@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4" style="max-width:600px">
+  <h2>Contact us</h2>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {% for f in [form.name, form.email, form.message] %}
+    <div class="mb-3">{{ f.label(class="form-label") }}
+      {{ f(class="form-control", rows=5) if f.name == 'message' else f(class="form-control") }}
+      {% for e in f.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>
+    {% endfor %}
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+</div>
+{% endblock %}
