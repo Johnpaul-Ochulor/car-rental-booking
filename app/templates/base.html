@@ -144,7 +144,8 @@
                     <p class="small text-muted mb-0">Premium car rental booking solutions[cite: 1]. &copy; 2026 FAST CARS. All rights reserved.</p>
                 </div>
                 <div class="col-md-6">
-                    <form method="post" action="{{ url_for('testimonials.subscribe') }}" class="d-flex gap-2 justify-content-md-end">
+                    <form method="POST" action="{{ url_for('testimonials.subscribe') }}" class="d-flex gap-2 justify-content-md-end">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <input type="email" name="email" class="form-control form-control-sm" style="max-width: 260px;" placeholder="Enter email for updates" required>
                         <button type="submit" class="btn btn-warning btn-sm fw-semibold">Subscribe</button>
                     </form>
