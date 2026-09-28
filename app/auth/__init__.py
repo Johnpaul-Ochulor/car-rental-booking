@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required
 from app.models import User
@@ -27,3 +28,6 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
+=======
+from app.auth.routes import auth_bp
+>>>>>>> origin/dev1-auth

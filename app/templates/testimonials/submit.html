@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4" style="max-width:600px">
+  <h2>Share your experience</h2>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="mb-3">{{ form.message.label(class="form-label") }}
+      {{ form.message(class="form-control", rows=4) }}
+      {% for e in form.message.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>
+    <div class="mb-3">{{ form.rating.label(class="form-label") }}
+      {{ form.rating(class="form-control", min=1, max=5, type="number") }}
+      {% for e in form.rating.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+</div>
+{% endblock %}

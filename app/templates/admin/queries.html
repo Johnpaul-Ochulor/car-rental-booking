@@ -1,24 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Contact Queries</h2>
-<table class="table">
-  <thead><tr><th>Name</th><th>Email</th><th>Message</th><th>Status</th><th></th></tr></thead>
-  <tbody>
-    {% for q in queries %}
-    <tr>
-      <td>{{ q.name }}</td>
-      <td>{{ q.email }}</td>
-      <td>{{ q.message }}</td>
-      <td>{{ "Resolved" if q.is_resolved else "Open" }}</td>
-      <td>
-        {% if not q.is_resolved %}
-        <form method="post" action="{{ url_for('admin.resolve_query', query_id=q.id) }}">
-          <button class="btn btn-sm btn-success">Resolve</button>
-        </form>
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="container my-4"><h2>Contact inbox</h2>
+<table class="table"><tr><th>Date</th><th>From</th><th>Message</th><th>Status</th><th></th></tr>
+{% for q in queries %}
+<tr><td>{{ q.submitted_at.strftime('%Y-%m-%d') }}</td>
+<td>{{ q.name }}<br><small>{{ q.email }}</small></td>
+<td>{{ q.message }}</td>
+<td>{{ 'Resolved' if q.is_resolved else 'Open' }}</td>
+<td><form method="post" action="{{ url_for('testimonials.resolve_query', qid=q.id) }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<button class="btn btn-sm btn-outline-success">{{ 'Reopen' if q.is_resolved else 'Resolve' }}</button></form></td></tr>
+{% endfor %}</table></div>
 {% endblock %}

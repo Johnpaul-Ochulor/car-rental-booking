@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 text-center text-white">
+    <div class="row justify-content-center py-5">
+        <div class="col-lg-8">
+            <h1 class="display-3 fw-bold mb-3 tracking-wide">DRIVE THE EXTRAORDINARY</h1>
+            <p class="lead text-slate-300 mb-4 fs-4">
+                Experience premium performance and luxury vehicle rentals at your fingertips.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-red-action btn-lg px-4 text-uppercase">
+                    Get Started <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg px-4 text-uppercase">
+                    Sign In
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

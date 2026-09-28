@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-4"><h2>Subscribers ({{ subscribers|length }})</h2>
+<table class="table"><tr><th>Email</th><th>Subscribed</th></tr>
+{% for s in subscribers %}
+<tr><td>{{ s.email }}</td><td>{{ s.subscribed_at.strftime('%Y-%m-%d') }}</td></tr>
+{% endfor %}</table></div>
+{% endblock %}
