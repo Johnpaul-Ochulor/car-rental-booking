@@ -1,0 +1,608 @@
+:root {
+
+    --fast-dark: #111111;
+
+    --fast-dark-2: #2b1b3d;
+
+    --fast-accent: #8b5cf6;
+
+    --fast-accent-hover: #7d2ae8;
+
+    --fast-light: #faf7ff;
+
+    --fast-text: #1a1a1a;
+
+    --fast-muted: #777;
+
+    --fast-border: #eadcff;
+
+}
+/* =========================
+   GLOBAL
+========================= */
+
+body {
+
+    background: var(--fast-light);
+
+    color: var(--fast-text);
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+main {
+
+    flex: 1;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.fast-navbar {
+    background: var(--fast-dark);
+    padding: 16px 0;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.12);
+}
+
+.fast-brand {
+    color: #fff !important;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.brand-icon {
+    margin-right: 8px;
+}
+
+.fast-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.78);
+    margin-left: 15px;
+    transition: 0.2s ease;
+}
+
+.fast-navbar .nav-link:hover {
+    color: #fff;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.catalog-hero {
+    background:
+        linear-gradient(
+            135deg,
+            var(--fast-dark),
+            var(--fast-dark-2)
+        );
+    color: white;
+    padding: 80px 0;
+}
+
+.hero-label {
+    color: #ff9b55;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.catalog-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin: 15px 0;
+}
+
+.catalog-hero p {
+    color: rgba(255, 255, 255, 0.72);
+    max-width: 600px;
+    font-size: 1.1rem;
+}
+
+.hero-car-icon {
+    font-size: 11rem;
+    opacity: 0.15;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-fast {
+
+background:linear-gradient(
+135deg,
+#8b5cf6,
+#a855f7
+);
+
+color:white;
+
+border:none;
+
+border-radius:12px;
+
+}
+
+.btn-fast:hover{
+
+background:#6d28d9;
+
+transform:translateY(-3px);
+
+box-shadow:
+0 10px 25px rgba(139,92,246,.3);
+
+}
+
+.btn-outline-fast {
+    border: 1px solid var(--fast-accent);
+    color: var(--fast-accent);
+    font-weight: 600;
+}
+
+.btn-outline-fast:hover {
+    background: var(--fast-accent);
+    color: white;
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+.filter-card {
+    background: white;
+    border: 1px solid var(--fast-border);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.filter-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #fff1e8;
+    color: var(--fast-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+
+/* =========================
+   VEHICLE CARDS
+========================= */
+.vehicle-card{
+
+background:white;
+
+border-radius:25px;
+
+border:1px solid #eee;
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.08);
+
+transition:.4s;
+
+}
+
+
+.vehicle-card:hover{
+
+transform:translateY(-12px);
+
+box-shadow:
+0 30px 60px rgba(139,92,246,.2);
+
+}
+
+.vehicle-image-wrapper {
+    height: 230px;
+    position: relative;
+    background: #e9ecef;
+    overflow: hidden;
+}
+
+.vehicle-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.vehicle-card:hover .vehicle-image {
+    transform: scale(1.04);
+}
+
+.vehicle-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+    font-size: 4rem;
+}
+
+.availability-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 7px 12px;
+    border-radius: 30px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.availability-badge.available {
+    background: #e8f8ef;
+    color: #198754;
+}
+
+.vehicle-card-body {
+    padding: 22px;
+}
+
+.vehicle-brand {
+    color: var(--fast-accent);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vehicle-card h4 {
+    margin: 5px 0 15px;
+    font-weight: 700;
+}
+
+.vehicle-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: var(--fast-muted);
+    font-size: 0.85rem;
+    padding-bottom: 18px;
+}
+
+.vehicle-meta i {
+    margin-right: 4px;
+}
+
+.vehicle-card-footer {
+    border-top: 1px solid var(--fast-border);
+    padding-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.vehicle-price {
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.vehicle-price small {
+    color: var(--fast-muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+.vehicle-search{
+
+display:flex;
+
+gap:15px;
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 15px 40px rgba(0,0,0,.08);
+
+}
+
+
+.vehicle-search input{
+
+flex:1;
+
+padding:15px;
+
+border-radius:12px;
+
+border:1px solid #ddd;
+
+font-size:16px;
+
+}
+
+
+.vehicle-search button{
+
+background:#8b5cf6;
+
+color:white;
+
+border:none;
+
+padding:15px 30px;
+
+border-radius:12px;
+
+font-weight:700;
+
+cursor:pointer;
+
+}
+
+
+.vehicle-search button:hover{
+
+background:#6d28d9;
+
+}
+
+/* =========================
+   DETAIL PAGE
+========================= */
+
+.back-link {
+    color: var(--fast-muted);
+    font-weight: 600;
+}
+
+.back-link:hover {
+    color: var(--fast-accent);
+}
+
+.detail-image-card {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    min-height: 450px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.07);
+}
+
+.detail-image {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.detail-image-placeholder {
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+    font-size: 5rem;
+}
+
+.detail-image-placeholder span {
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+.detail-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 8px 0 15px;
+}
+
+.detail-price {
+    margin-bottom: 20px;
+}
+
+.detail-price span {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.detail-price small {
+    color: var(--fast-muted);
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 30px;
+    padding: 8px 13px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-available {
+    background: #e8f8ef;
+    color: #198754;
+}
+
+.status-booked {
+    background: #fff3cd;
+    color: #997404;
+}
+
+.status-maintenance {
+    background: #f8d7da;
+    color: #b02a37;
+}
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.spec-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 15px;
+    background: white;
+    border: 1px solid var(--fast-border);
+    border-radius: 12px;
+}
+
+.spec-item > i {
+    color: var(--fast-accent);
+    font-size: 1.3rem;
+}
+
+.spec-item small {
+    display: block;
+    color: var(--fast-muted);
+}
+
+.spec-item strong {
+    display: block;
+    margin-top: 3px;
+}
+
+.admin-actions {
+    background: #f8f9fa;
+    border: 1px solid var(--fast-border);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+
+/* =========================
+   FORMS
+========================= */
+
+.page-header h1 {
+    font-weight: 800;
+}
+
+.form-card {
+    background: white;
+    border: 1px solid var(--fast-border);
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.form-label {
+    font-weight: 600;
+}
+
+.form-control,
+.form-select {
+    border-color: #dfe3e8;
+    padding: 11px 13px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--fast-accent);
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 0, 0.12);
+}
+
+.current-image {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.current-image-preview {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state {
+    background: white;
+    border: 1px solid var(--fast-border);
+    border-radius: 16px;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    color: #adb5bd;
+    margin-bottom: 15px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+.fast-footer {
+
+    margin-top: auto;
+
+    padding: 40px 0;
+
+    background: var(--fast-dark);
+
+    color: rgba(255, 255, 255, 0.7);
+
+}
+
+.fast-footer h5 {
+    color: white;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .catalog-hero {
+        padding: 55px 0;
+    }
+
+    .hero-car-icon {
+        display: none;
+    }
+
+    .detail-title {
+        font-size: 2.2rem;
+    }
+
+    .detail-image {
+        height: 350px;
+    }
+
+    .spec-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-card {
+        padding: 20px;
+    }
+
+}

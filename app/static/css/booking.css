@@ -1,0 +1,157 @@
+/* FAST CARS BOOKING PAGE */
+
+
+.booking-page{
+    background:#f8fafc;
+}
+
+.booking-card input{
+
+height:50px;
+border-radius:12px;
+border:1px solid #e2e8f0;
+padding:10px;
+
+}
+
+
+.booking-card label{
+
+font-weight:600;
+margin-bottom:8px;
+
+}
+
+.booking-card,
+.summary-card{
+
+background:white;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+padding:25px;
+
+}
+
+
+
+.vehicle-box img{
+
+    width:220px;
+    height:150px;
+    object-fit:cover;
+
+}
+.no-image{
+
+height:320px;
+background:#f1f5f9;
+border-radius:20px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-size:20px;
+color:#64748b;
+
+}
+
+
+.vehicle-specs span{
+
+    display:inline-block;
+    background:#eef2ff;
+    color:#1e40af;
+    padding:8px 12px;
+    border-radius:20px;
+    margin:5px;
+
+    font-size:14px;
+
+}
+
+
+
+.location-card{
+
+    background:#f8fafc;
+    padding:20px;
+    border-radius:15px;
+    margin-top:15px;
+
+}
+
+
+
+.policy{
+
+    background:#ecfdf5;
+    padding:20px;
+    border-radius:15px;
+    color:#166534;
+
+}
+
+
+
+.summary-card{
+
+position:sticky;
+top:20px;
+
+}
+
+
+
+.summary-item{
+
+    display:flex;
+    justify-content:space-between;
+    margin:15px 0;
+
+}
+
+
+
+.total{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+
+
+.btn-fast{
+
+
+background:#0f172a;
+color:white;
+
+padding:14px;
+
+border-radius:12px;
+
+font-weight:600;
+
+}
+
+
+
+.btn-fast:hover{
+
+background:#1e293b;
+color:white;
+
+}
+
+
+
+.secure-text{
+
+font-size:14px;
+color:#64748b;
+text-align:center;
+
+}

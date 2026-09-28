@@ -9,6 +9,7 @@ auth_bp = Blueprint("auth", __name__, template_folder="../templates/auth")
 def login():
     # TEMPORARY implementation — Dev 1 will replace this with full
     # registration, validation, and password reset.
+    print("NEW LOGIN FUNCTION RUNNING")
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -25,3 +26,4 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("home"))
+

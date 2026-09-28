@@ -29,34 +29,87 @@ class User(UserMixin, db.Model):
         return self.role == "admin"
 
 
+
+
 class VehicleBrand(db.Model):
-    __tablename__ = "vehicle_brands"
+    __tablename__ = 'vehicle_brands'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    logo_image = db.Column(db.String(255))
-    description = db.Column(db.Text)
+    logo_image = db.Column(db.String(255), nullable=True)
+    description = db.Column(db.Text, nullable=True)
 
-    vehicles = db.relationship("Vehicle", backref="brand", lazy=True)
+    # One-to-Many Relationship
+    vehicles = db.relationship('Vehicle', backref='brand', lazy=True, cascade="all, delete-orphan")
 
+def __repr__(self):
+    return f"<VehicleBrand {self.name}>"
 
 class Vehicle(db.Model):
     __tablename__ = "vehicles"
 
     id = db.Column(db.Integer, primary_key=True)
-    brand_id = db.Column(db.Integer, db.ForeignKey("vehicle_brands.id"), nullable=False)
-    model_name = db.Column(db.String(100), nullable=False)
-    category = db.Column(db.String(50))
-    transmission = db.Column(db.String(20))  # 'automatic' or 'manual'
-    fuel_type = db.Column(db.String(50))
-    seats = db.Column(db.Integer)
-    price_per_day = db.Column(db.Numeric(8, 2), nullable=False)
-    image = db.Column(db.String(255))
-    availability_status = db.Column(db.String(20), default="available")  # available/booked/maintenance
-    description = db.Column(db.Text)
 
-    bookings = db.relationship("Booking", backref="vehicle", lazy=True)
+    brand_id = db.Column(
+        db.Integer,
+        db.ForeignKey("vehicle_brands.id"),
+        nullable=False
+    )
 
+    model_name = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
+    category = db.Column(
+        db.String(50),
+        nullable=False
+    )
+
+    transmission = db.Column(
+        db.String(20),
+        nullable=False
+    )
+
+    fuel_type = db.Column(
+        db.String(50),
+        nullable=False
+    )
+
+    seats = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+    price_per_day = db.Column(
+        db.Numeric(8, 2),
+        nullable=False
+    )
+
+    image = db.Column(
+        db.String(255),
+        nullable=True
+    )
+
+    availability_status = db.Column(
+        db.String(20),
+        default="available",
+        nullable=False
+    )
+
+    description = db.Column(
+        db.Text,
+        nullable=True
+    )
+
+    bookings = db.relationship(
+        "Booking",
+        backref="vehicle",
+        lazy=True
+    )
+
+    def __repr__(self):
+        return f"<Vehicle {self.model_name}>"
 
 class Booking(db.Model):
     __tablename__ = "bookings"

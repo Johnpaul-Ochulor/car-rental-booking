@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VexCar | Premium Rentals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/Start.css') }}"
+    />
+  </head>
+  <body>
+<header>
+
+<section id="Search">
+
+    <div class="hero-bg" id="heroImage"></div>
+
+    <div class="hero-overlay"></div>
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <h1>FASTCARS</h1>
+        </div>
+
+        <ul class="links">
+            <li><a href="#Rentals">Cars</a></li>
+            <li><a href="#WORKS">How it Works</a></li>
+            <li><a href="#Human">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+
+            <li>
+               {% if current_user.is_authenticated %}
+
+<div class="dropdown">
+
+<button class="profile-btn">
+<i class="bi bi-person-circle"></i>
+</button>
+
+
+<div class="dropdown-menu">
+
+<a href="#">
+Profile
+</a>
+
+<a href="#">
+My Bookings
+</a>
+
+<a href="{{ url_for('auth.logout') }}">
+Logout
+</a>
+
+</div>
+
+
+</div>
+
+
+{% else %}
+
+
+<button class="Sign">
+Sign Up
+</button>
+
+
+{% endif %}
+            </li>
+        </ul>
+
+        
+
+    </nav>
+
+
+    <div class="hero-content reveal">
+
+        <p class="small-title">
+            PREMIUM CAR RENTAL
+        </p>
+
+
+        <h1 id="carName">
+            Lamborghini Huracan
+        </h1>
+
+
+        <p id="description">
+            Experience luxury, speed and comfort wherever you go.
+        </p>
+
+
+        <div class="vehicle-info">
+
+            <div>
+                <h3 id="speed">602 HP</h3>
+                <span>Power</span>
+            </div>
+
+
+            <div>
+                <h3 id="gear">Automatic</h3>
+                <span>Transmission</span>
+            </div>
+
+
+            <div>
+                <h3 id="price">₦250,000</h3>
+                <span>Per Day</span>
+            </div>
+
+        </div>
+
+
+        <div class="slider-dots" id="dots"></div>
+
+
+    </div>
+
+</section>
+
+
+</header>
+
+    <section id="Rent">
+      <div class="title" id="WORKS">
+        <h4>How it Works</h4>
+        <h1>Find, Rent, Book in 3 easy steps</h1>
+      </div>
+
+      <div class="book">
+        <div class="step-card reveal delay-1">
+          <div class="icon">
+            <img src="{{ url_for('static', filename='Images/icons8-approval-50.png') }}" />
+          </div>
+          <h3>Find</h3>
+          <p>Choose and find your best car from our fleet</p>
+        </div>
+        <div class="step-card reveal delay-2">
+          <div class="icon">
+            <img src="{{ url_for('static', filename='Images/icons8-calendar-50.png') }}" /></div>
+          <h3>Rent</h3>
+          <p>Select your preferred rental dates and time</p>
+        </div>
+        <div class="step-card reveal delay-3">
+          <div class="icon">
+            <img src="{{ url_for('static', filename='Images/icons8-tesla-model-s-50.png') }}" />
+          </div>
+          <h3>Book</h3>
+          <p>Confirm your reservation instantly</p>
+        </div>
+      </div>
+
+      <div class="logo-slider">
+        <div class="logos">
+          <img
+            src="{{ url_for('static', filename='Images/honda.jpg') }}"
+            alt="Honda"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/jaguar.webp') }}"
+            alt="Jaguar"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/Nissan.jpg') }}"
+            alt="Nissan"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/Volvo.jpg') }}"
+            alt="Volvo"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/Audi.webp') }}"
+            alt="Audi"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/acura.webp') }}"
+            alt="Acura"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/honda.jpg') }}"
+            alt="Honda"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/jaguar.webp') }}"
+            alt="Jaguar"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/Nissan.jpg') }}"
+            alt="Nissan"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/Volvo.jpg') }}"
+            alt="Volvo"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/Audi.webp') }}"
+            alt="Audi"
+          />
+          <img
+            src="{{ url_for('static', filename='Images/acura.webp') }}"
+            alt="Acura"
+          />
+        </div>
+      </div>
+    </section>
+<section id="Rentals">
+
+<div class="vehicle-header">
+
+<h4>Featured Vehicles</h4>
+
+<h1>Choose Your Perfect Ride</h1>
+
+<p>
+Explore our premium collection of luxury and comfortable vehicles.
+</p>
+
+</div>
+
+
+<div class="featured-wrapper">
+
+
+{% for vehicle in vehicles[:3] %}
+
+
+<div class="featured-card reveal">
+
+
+<div class="featured-image">
+
+{% if vehicle.image %}
+
+<img src="{{ url_for('static', filename=vehicle.image) }}">
+
+{% else %}
+
+<img src="{{ url_for('static', filename='Images/cars/default.png') }}">
+
+{% endif %}
+
+</div>
+
+
+
+<div class="featured-content">
+
+
+<h2>
+{{vehicle.brand.name}} {{vehicle.model_name}}
+</h2>
+
+
+<p>
+{{vehicle.transmission}}
+•
+{{vehicle.seats}} Seats
+•
+{{vehicle.fuel_type}}
+</p>
+
+
+<h3>
+₦{{vehicle.price_per_day}}
+<span>/day</span>
+</h3>
+
+
+<a href="{{url_for('vehicles.catalog')}}">
+<button>
+View More Cars →
+</button>
+</a>
+
+
+</div>
+
+
+</div>
+
+
+{% endfor %}
+
+
+</div>
+
+
+</section>
+    <section id="Human" class="reveal">
+      <div id="header">
+        <div class="tops">
+          <h1>TESTIMONAILS</h1>
+        </div>
+        <h3>What people say about us?</h3>
+      </div>
+      <div id="genders">
+        <div class="people">
+          <div class="images">
+         <img src="{{ url_for('static', filename='Images/man-_9up3Pe4.jpg') }}">
+          </div>
+          <div class="details">
+            <div class="rating-badge">⭐ 5.0</div>
+
+            <div class="stars">★★★★★</div>
+            <div class="work">
+              <p class="work-serve">
+                I have rented several cars through VexCar and every experience
+                has been smooth. The booking process is simple, the cars are
+                clean, and customer support is excellent.
+              </p>
+            </div>
+            <div class="bottom">
+              <h1>Jenny Wilson</h1>
+              <p>From New York,US</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="people">
+          <div class="images">
+            <img src="{{ url_for('static', filename='Images/woman-Bl9nOv18.jpg') }}">
+          </div>
+          <div class="details">
+            <div class="rating-badge">⭐ 5.0</div>
+
+            <div class="stars">★★★★★</div>
+            <div class="work">
+              <p class="work-serve">
+                I have rented several cars through VexCar and every experience
+                has been smooth. The booking process is simple, the cars are
+                clean, and customer support is excellent.
+              </p>
+            </div>
+            <div class="bottom">
+              <h1>Jenny Wilson</h1>
+              <p>From New York,US</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="Interface" class="reveal">
+  <div class="interface-content">
+
+    <div id="btn3">
+      <button>EXPLORE VEXCAR</button>
+    </div>
+
+    <div class="interface-text">
+
+      <h1>
+        Your Journey Starts With 
+        <span>VexCar</span>
+      </h1>
+
+      <p>
+        Discover a smarter way to rent vehicles. 
+        Browse premium cars, choose your preferred ride, 
+        and enjoy a smooth booking experience anytime, anywhere.
+      </p>
+
+
+      <div class="service-list">
+
+        <div>
+          🚗
+          <span>
+            Wide Range of Vehicles
+          </span>
+        </div>
+
+        <div>
+          📅
+          <span>
+            Easy and Fast Booking
+          </span>
+        </div>
+
+
+        <div>
+          🛡️
+          <span>
+            Reliable Rental Support
+          </span>
+        </div>
+
+      </div>
+
+      <a href="{{url_for('vehicles.catalog')}}">
+
+      <button class="explore-btn">
+        View Available Cars →
+      </button>
+</a>
+
+
+
+    </div>
+
+  </div>
+
+
+  <div class="interface-image">
+
+    <img 
+    class="zooming-phone"
+    src="{{ url_for('static', filename='Images/phone.png') }}"
+    >
+
+  </div>
+    </section>
+
+</section>
+    <footer class="footer" id="contact">
+      <div class="footer-container">
+        <!-- Contact / Brand -->
+        <div class="footer-brand">
+          <h2>VexCar</h2>
+
+          <p><span>📍</span> Lagos, Nigeria</p>
+          <p><span>📞</span> +234 904 1727 719</p>
+          <p><span>✉️</span> feranmiabiola2918@gmail.com</p>
+        </div>
+
+        <!-- Our Product -->
+        <div class="footer-links">
+          <h3>Our Product</h3>
+          <ul>
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Car</a></li>
+            <li><a href="#">Packages</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Priceline</a></li>
+          </ul>
+        </div>
+
+        <!-- About -->
+        <div class="footer-links">
+          <h3>About FASTCAR</h3>
+          <ul>
+            <li><a href="#">Why choose us</a></li>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Investor Relations</a></li>
+            <li><a href="#">Press Center</a></li>
+            <li><a href="#">Advertise</a></li>
+          </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-social">
+          <h3>Follow Us</h3>
+
+          <div class="social-icons">
+            <a href="https://facebook.com/YourUsername" target="_blank">F</a>
+            <a href="https://instagram.com/YourUsername" target="_blank">I</a>
+            <a href="https://x.com/YourUsername" target="_blank">▶</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>Copyright 2026 • FASTCARS, All Rights Reserved</p>
+      </div>
+    </footer>
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/animation.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+  </body>
+</html>

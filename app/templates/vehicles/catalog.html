@@ -1,0 +1,388 @@
+{% extends "base.html" %}
+
+{% block title %}Available Vehicles | FAST CARS{% endblock %}
+
+{% block content %}
+
+<section class="catalog-hero">
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-7">
+
+                <span class="hero-label">
+                    FAST CARS VEHICLE COLLECTION
+                </span>
+
+                <h1>
+                    Find the right car<br>
+                    for your journey.
+                </h1>
+
+                <p>
+                    Browse our available vehicles and choose a car
+                    that matches your needs, style and budget.
+                </p>
+
+            </div>
+
+            <div class="col-lg-5 text-lg-end">
+                <div class="hero-car-icon">
+                    <i class="bi bi-car-front-fill"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- FILTER SECTION -->
+
+        <div class="filter-card mb-5">
+
+            <div class="d-flex align-items-center mb-4">
+
+                <div class="filter-icon">
+                    <i class="bi bi-funnel-fill"></i>
+                </div>
+
+                <div>
+                    <h5 class="mb-0">Find Your Car</h5>
+                    <small class="text-muted">
+                        Filter vehicles by brand or category
+                    </small>
+                </div>
+
+            </div>
+
+            <!-- SEARCH VEHICLE -->
+
+<form 
+    action="{{ url_for('vehicles.search_vehicle') }}" 
+    method="GET"
+    class="mb-4"
+>
+
+    <div class="row">
+
+        <div class="col-md-10">
+
+            <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Search vehicle name or category..."
+                value="{{ request.args.get('q','') }}"
+            >
+
+        </div>
+
+
+        <div class="col-md-2">
+
+            <button 
+                type="submit"
+                class="btn btn-fast w-100"
+            >
+                <i class="bi bi-search"></i>
+                Search
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+
+
+            <form
+                method="GET"
+                action="{{ url_for('vehicles.catalog') }}"
+            >
+
+                <div class="row g-3">
+
+                    <div class="col-md-5">
+
+                        <label class="form-label">
+                            Vehicle Brand
+                        </label>
+
+                        <select
+                            name="brand_id"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Brands
+                            </option>
+
+                            {% for brand in brands %}
+
+                                <option
+                                    value="{{ brand.id }}"
+                                    {% if selected_brand == brand.id %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ brand.name }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-5">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        <select
+                            name="category"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Categories
+                            </option>
+
+                            <option
+                                value="Sedan"
+                                {% if selected_category == "Sedan" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Sedan
+                            </option>
+
+                            <option
+                                value="SUV"
+                                {% if selected_category == "SUV" %}
+                                    selected
+                                {% endif %}
+                            >
+                                SUV
+                            </option>
+
+                            <option
+                                value="Hatchback"
+                                {% if selected_category == "Hatchback" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Hatchback
+                            </option>
+
+                            <option
+                                value="Convertible"
+                                {% if selected_category == "Convertible" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Convertible
+                            </option>
+
+                            <option
+                                value="Coupe"
+                                {% if selected_category == "Coupe" %}
+                                    selected
+                                {% endif %}
+                            >
+                                Coupe
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <div class="col-md-2 d-flex align-items-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-fast w-100"
+                        >
+                            <i class="bi bi-search me-1"></i>
+                            Filter
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <!-- RESULTS HEADER -->
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h2 class="section-title mb-1">
+                    Available Vehicles
+                </h2>
+
+                <p class="text-muted mb-0">
+                    {% if vehicles %}
+                        {{ vehicles|length }} vehicle(s) available
+                    {% else %}
+                        No vehicles available
+                    {% endif %}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- VEHICLES -->
+
+        <div class="row g-4">
+
+            {% for vehicle in vehicles %}
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="vehicle-card h-100">
+
+                        <div class="vehicle-image-wrapper">
+
+                            {% if vehicle.image %}
+
+                                <img
+                                    src="{{ url_for('static', filename=vehicle.image) }}"
+                                    alt="{{ vehicle.brand.name }} {{ vehicle.model_name }}"
+                                    class="vehicle-image"
+                                >
+
+                            {% else %}
+
+                                <div class="vehicle-placeholder">
+                                    <i class="bi bi-car-front-fill"></i>
+                                </div>
+
+                            {% endif %}
+
+
+                            <span class="availability-badge available">
+                                <i class="bi bi-check-circle-fill me-1"></i>
+                                Available
+                            </span>
+
+                        </div>
+
+
+                        <div class="vehicle-card-body">
+
+                            <small class="vehicle-brand">
+                                {{ vehicle.brand.name }}
+                            </small>
+
+                            <h4>
+                                {{ vehicle.model_name }}
+                            </h4>
+
+
+                            <div class="vehicle-meta">
+
+                                <span>
+                                    <i class="bi bi-grid"></i>
+                                    {{ vehicle.category }}
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-gear"></i>
+                                    {{ vehicle.transmission }}
+                                </span>
+
+                                <span>
+                                    <i class="bi bi-people"></i>
+                                    {{ vehicle.seats }} seats
+                                </span>
+
+                            </div>
+
+
+                            <div class="vehicle-card-footer">
+
+                                <div>
+
+                                    <small class="text-muted">
+                                        From
+                                    </small>
+
+                                    <div class="vehicle-price">
+                                        ${{ "%.2f"|format(vehicle.price_per_day) }}
+                                        <small>/day</small>
+                                    </div>
+
+                                </div>
+
+
+                                <a
+                                    href="{{ url_for('vehicles.detail', vehicle_id=vehicle.id) }}"
+                                    class="btn btn-outline-fast"
+                                >
+                                    View Details
+                                    <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% else %}
+
+                <div class="col-12">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            <i class="bi bi-car-front"></i>
+                        </div>
+
+                        <h4>No vehicles found</h4>
+
+                        <p>
+                            Try changing your search filters.
+                        </p>
+
+                        <a
+                            href="{{ url_for('vehicles.catalog') }}"
+                            class="btn btn-fast"
+                        >
+                            View All Vehicles
+                        </a>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

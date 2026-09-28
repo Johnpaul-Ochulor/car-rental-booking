@@ -1,9 +1,10 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required
 from app.admin import admin_bp
-from app.utils import admin_required
+from app.utils import admin_required, save_uploaded_file
 from app.extensions import db
-from app.models import User, Booking, Subscriber, ContactQuery, Testimonial, PageContent
+from app.models import User, Booking, Subscriber, ContactQuery, Testimonial, PageContent, VehicleBrand, Vehicle
+from app.vehicles.forms import VehicleBrandForm, VehicleForm
 
 
 @admin_bp.route("/")
@@ -93,3 +94,125 @@ def resolve_query(query_id):
     db.session.commit()
     flash("Query marked as resolved.", "success")
     return redirect(url_for("admin.queries"))
+
+@admin_bp.route("/brands", methods=["GET", "POST"])
+@admin_required
+def manage_brands():
+    form = VehicleBrandForm()
+    if form.validate_on_submit():
+        logo_path = save_uploaded_file(form.logo_image.data, folder="brands")
+        brand = VehicleBrand(
+            name=form.name.data,
+            logo_image=logo_path,
+            description=form.description.data
+        )
+        db.session.add(brand)
+        db.session.commit()
+        flash("Vehicle Brand added successfully!", "success")
+        return redirect(url_for("admin.manage_brands"))
+
+    brands = VehicleBrand.query.order_by(VehicleBrand.name).all()
+    return render_template("admin/brands.html", form=form, brands=brands)
+
+
+@admin_bp.route("/brands/edit/", methods=["GET", "POST"])
+@admin_required
+def edit_brand(brand_id):
+    brand = VehicleBrand.query.get_or_404(brand_id)
+    form = VehicleBrandForm(obj=brand)
+
+    if form.validate_on_submit():
+        brand.name = form.name.data
+        brand.description = form.description.data
+        if form.logo_image.data:
+            brand.logo_image = save_uploaded_file(form.logo_image.data, folder="brands")
+
+        db.session.commit()
+        flash("Brand updated successfully!", "success")
+        return redirect(url_for("admin.manage_brands"))
+
+    return render_template("admin/edit_brand.html", form=form, brand=brand)
+
+
+@admin_bp.route("/brands/delete/", methods=["POST"])
+@admin_required
+def delete_brand(brand_id):
+    brand = VehicleBrand.query.get_or_404(brand_id)
+    if brand.vehicles:
+        flash("Cannot delete a brand that has vehicles assigned to it.", "danger")
+        return redirect(url_for("admin.manage_brands"))
+
+    db.session.delete(brand)
+    db.session.commit()
+    flash("Brand deleted successfully!", "success")
+    return redirect(url_for("admin.manage_brands"))
+
+
+# ==================== VEHICLE MANAGEMENT ====================
+
+@admin_bp.route("/vehicles", methods=["GET", "POST"])
+@admin_required
+def manage_vehicles():
+    form = VehicleForm()
+    # Dynamic dropdown for brands
+    form.brand_id.choices = [(b.id, b.name) for b in VehicleBrand.query.order_by(VehicleBrand.name).all()]
+
+    if form.validate_on_submit():
+        image_path = save_uploaded_file(form.image.data, folder="vehicles")
+        vehicle = Vehicle(
+            brand_id=form.brand_id.data,
+            model_name=form.model_name.data,
+            category=form.category.data,
+            transmission=form.transmission.data,
+            fuel_type=form.fuel_type.data,
+            seats=form.seats.data,
+            price_per_day=form.price_per_day.data,
+            availability_status=form.availability_status.data,
+            description=form.description.data,
+            image=image_path
+        )
+        db.session.add(vehicle)
+        db.session.commit()
+        flash("Vehicle added successfully!", "success")
+        return redirect(url_for("admin.manage_vehicles"))
+
+    vehicles = Vehicle.query.order_by(Vehicle.id.desc()).all()
+    return render_template("admin/vehicles.html", form=form, vehicles=vehicles)
+
+
+@admin_bp.route("/vehicles/edit/", methods=["GET", "POST"])
+@admin_required
+def edit_vehicle(vehicle_id):
+    vehicle = Vehicle.query.get_or_404(vehicle_id)
+    form = VehicleForm(obj=vehicle)
+    form.brand_id.choices = [(b.id, b.name) for b in VehicleBrand.query.order_by(VehicleBrand.name).all()]
+
+    if form.validate_on_submit():
+        vehicle.brand_id = form.brand_id.data
+        vehicle.model_name = form.model_name.data
+        vehicle.category = form.category.data
+        vehicle.transmission = form.transmission.data
+        vehicle.fuel_type = form.fuel_type.data
+        vehicle.seats = form.seats.data
+        vehicle.price_per_day = form.price_per_day.data
+        vehicle.availability_status = form.availability_status.data
+        vehicle.description = form.description.data
+
+        if form.image.data:
+            vehicle.image = save_uploaded_file(form.image.data, folder="vehicles")
+
+        db.session.commit()
+        flash("Vehicle updated successfully!", "success")
+        return redirect(url_for("admin.manage_vehicles"))
+
+    return render_template("admin/edit_vehicle.html", form=form, vehicle=vehicle)
+
+
+@admin_bp.route("/vehicles/delete/", methods=["POST"])
+@admin_required
+def delete_vehicle(vehicle_id):
+    vehicle = Vehicle.query.get_or_404(vehicle_id)
+    db.session.delete(vehicle)
+    db.session.commit()
+    flash("Vehicle deleted successfully!", "success")
+    return redirect(url_for("admin.manage_vehicles"))

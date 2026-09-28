@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 
-vehicles_bp = Blueprint("vehicles", __name__, template_folder="../templates/vehicles")
+vehicles_bp = Blueprint(
+    "vehicles",
+    __name__,
+    template_folder="../templates/vehicles"
+)
 
 
-@vehicles_bp.route("/")
-def index():
-    return render_template("coming_soon.html", module="Vehicles (Dev 2)")
+from app.vehicles import routes

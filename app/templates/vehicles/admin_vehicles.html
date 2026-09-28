@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Vehicles - Admin{% endblock %}
+
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Vehicle Management</h2>
+            <p class="text-muted">
+                Add, edit and manage your vehicle fleet
+            </p>
+        </div>
+
+
+        <a href="{{ url_for('vehicles.manage_vehicle') }}" 
+           class="btn btn-primary">
+
+            + Add New Vehicle
+
+        </a>
+
+    </div>
+
+
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+
+            <table class="table table-hover">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Image</th>
+                        <th>Vehicle</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Price/Day</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for vehicle in vehicles %}
+
+
+                    <tr>
+
+
+                        <td>
+
+                            {% if vehicle.image %}
+
+                            <img 
+                            src="{{ url_for('static', filename=vehicle.image) }}"
+                            width="80"
+                            height="60"
+                            style="object-fit:cover;border-radius:8px;">
+
+                            {% else %}
+
+                            No Image
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <td>
+                            {{ vehicle.model_name }}
+                        </td>
+
+
+
+                        <td>
+                            {{ vehicle.brand.name }}
+                        </td>
+
+
+
+                        <td>
+                            {{ vehicle.category }}
+                        </td>
+
+
+
+                        <td>
+                            ₦{{ vehicle.price_per_day }}
+                        </td>
+
+
+
+                        <td>
+
+                            {% if vehicle.availability_status == "available" %}
+
+                            <span class="badge bg-success">
+                                Available
+                            </span>
+
+                            {% elif vehicle.availability_status == "booked" %}
+
+                            <span class="badge bg-warning">
+                                Booked
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-danger">
+                                Maintenance
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <td>
+
+
+                            <!-- EDIT BUTTON -->
+                            <a href="{{ url_for(
+                                'vehicles.manage_vehicle',
+                                vehicle_id=vehicle.id
+                            ) }}"
+                            class="btn btn-sm btn-outline-primary">
+
+                                Edit
+
+                            </a>
+
+
+
+                            <!-- DELETE BUTTON -->
+
+                            <form method="POST"
+                            action="{{ url_for(
+                                'vehicles.delete_vehicle',
+                                vehicle_id=vehicle.id
+                            ) }}"
+                            style="display:inline;">
+
+
+                                <button 
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Delete this vehicle?')">
+
+                                    Delete
+
+                                </button>
+
+
+                            </form>
+
+
+                        </td>
+
+
+
+                    </tr>
+
+
+                {% else %}
+
+
+                    <tr>
+
+                        <td colspan="7" class="text-center">
+
+                            No vehicles available.
+
+                        </td>
+
+                    </tr>
+
+
+                {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

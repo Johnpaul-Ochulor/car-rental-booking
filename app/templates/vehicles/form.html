@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ "Edit Vehicle" if vehicle else "Add Vehicle" }} | FAST CARS
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="page-header mb-4">
+
+            <a
+                href="{{ url_for('vehicles.manage_vehicles') }}"
+                class="back-link"
+            >
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Vehicle Management
+            </a>
+
+            <h1 class="mt-3">
+                {{ "Edit Vehicle" if vehicle else "Add New Vehicle" }}
+            </h1>
+
+            <p class="text-muted">
+                {{ "Update the vehicle information below."
+                if vehicle
+                else "Add a vehicle to the FAST CARS fleet." }}
+            </p>
+
+        </div>
+
+
+        <div class="form-card">
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                {{ form.hidden_tag() }}
+
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            {{ form.brand_id.label.text }}
+                        </label>
+
+                        {{ form.brand_id(class="form-select") }}
+
+                        {% for error in form.brand_id.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            {{ form.model_name.label.text }}
+                        </label>
+
+                        {{ form.model_name(class="form-control", placeholder="e.g. Camry 2025") }}
+
+                        {% for error in form.model_name.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            {{ form.category.label.text }}
+                        </label>
+
+                        {{ form.category(class="form-select") }}
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            {{ form.transmission.label.text }}
+                        </label>
+
+                        {{ form.transmission(class="form-select") }}
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            {{ form.fuel_type.label.text }}
+                        </label>
+
+                        {{ form.fuel_type(class="form-select") }}
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            {{ form.seats.label.text }}
+                        </label>
+
+                        {{ form.seats(class="form-control", placeholder="5") }}
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            {{ form.price_per_day.label.text }}
+                        </label>
+
+                        {{ form.price_per_day(class="form-control", placeholder="50000.00") }}
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+                            {{ form.availability_status.label.text }}
+                        </label>
+
+                        {{ form.availability_status(class="form-select") }}
+
+                    </div>
+
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            {{ form.image.label.text }}
+                        </label>
+
+                        {{ form.image(class="form-control") }}
+
+                        <div class="form-text">
+                            JPG, PNG, JPEG or WEBP.
+                        </div>
+
+
+                        {% if vehicle and vehicle.image %}
+
+                            <div class="current-image mt-3">
+
+                                <img
+                                    src="{{ url_for('static', filename=vehicle.image) }}"
+                                    alt="Current vehicle image"
+                                    class="current-image-preview"
+                                >
+
+                                <div>
+                                    <small class="text-muted">
+                                        Current vehicle image
+                                    </small>
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            {{ form.description.label.text }}
+                        </label>
+
+                        {{ form.description(
+                            class="form-control",
+                            rows="5",
+                            placeholder="Describe the vehicle, its features and rental experience..."
+                        ) }}
+
+                    </div>
+
+                </div>
+
+
+                <hr class="my-4">
+
+
+                <div class="d-flex justify-content-end gap-2">
+
+                 <a href="{{ url_for('vehicles.manage_vehicles') }}" class="btn btn-secondary">
+    Cancel
+</a>
+
+                    {{ form.submit(
+                        class="btn btn-fast px-4"
+                    ) }}
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

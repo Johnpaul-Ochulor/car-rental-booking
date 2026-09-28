@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Manage Vehicles - Admin{% endblock %}
+
+{% block content %}
+
+Add New Vehicle
+
+{{ form.hidden_tag() }}
+
+{{ form.brand_id.label(class="form-label") }}
+{{ form.brand_id(class="form-select") }}
+
+{{ form.model_name.label(class="form-label") }}
+{{ form.model_name(class="form-control") }}
+
+{{ form.category.label(class="form-label") }}
+{{ form.category(class="form-select") }}
+
+{{ form.transmission.label(class="form-label") }}
+{{ form.transmission(class="form-select") }}
+
+{{ form.fuel_type.label(class="form-label") }}
+{{ form.fuel_type(class="form-select") }}
+
+{{ form.seats.label(class="form-label") }}
+{{ form.seats(class="form-control") }}
+
+{{ form.price_per_day.label(class="form-label") }}
+{{ form.price_per_day(class="form-control") }}
+
+{{ form.availability_status.label(class="form-label") }}
+{{ form.availability_status(class="form-select") }}
+
+{{ form.image.label(class="form-label") }}
+{{ form.image(class="form-control") }}
+
+{{ form.description.label(class="form-label") }}
+{{ form.description(class="form-control", rows=2) }}
+
+{{ form.submit(class="btn btn-primary w-100") }}
+
+Vehicle Fleet
+
+{% for vehicle in vehicles %}
+
+{% else %}
+
+{% endfor %}
+
+{% endblock %}

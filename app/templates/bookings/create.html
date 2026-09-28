@@ -1,0 +1,583 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="container py-5">
+
+
+<div class="mb-4">
+
+<a href="{{ url_for('vehicles.catalog') }}" class="text-decoration-none">
+New booking
+</a>
+
+<span class="mx-2">›</span>
+
+<a href="{{ url_for('vehicles.catalog') }}" class="text-decoration-none">
+Car search
+</a>
+
+<span class="mx-2">›</span>
+
+<span>
+Booking page
+</span>
+
+</div>
+
+
+
+<form method="POST" action="{{ url_for('bookings.create_booking', vehicle_id=vehicle.id) }}">
+
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+<div class="row g-5">
+
+
+<!-- LEFT SIDE -->
+
+<div class="col-lg-8">
+
+
+<!-- VEHICLE CARD -->
+
+<div class="card shadow border-0 rounded-4 overflow-hidden">
+
+
+<div class="vehicle-box">
+
+
+{% if vehicle.image %}
+
+<img 
+src="{{ url_for('static', filename=vehicle.image) }}"
+alt="{{ vehicle.model_name }}"
+>
+
+
+{% else %}
+
+<div class="no-image">
+
+<i class="bi bi-car-front"></i>
+
+<p>No image available</p>
+
+</div>
+
+
+{% endif %}
+
+
+</div>
+
+
+
+<div class="p-4">
+
+
+<h2 class="fw-bold">
+
+{{ vehicle.brand.name if vehicle.brand else "" }}
+{{ vehicle.model_name }}
+
+</h2>
+
+
+<p class="text-muted">
+or similar vehicle
+</p>
+
+
+
+
+<div class="row mt-4">
+
+
+<div class="col-md-3">
+
+<i class="bi bi-gear"></i>
+
+<p>
+{{ vehicle.transmission or "Automatic" }}
+</p>
+
+</div>
+
+
+
+<div class="col-md-3">
+
+<i class="bi bi-fuel-pump"></i>
+
+<p>
+{{ vehicle.fuel_type or "Petrol" }}
+</p>
+
+</div>
+
+
+
+<div class="col-md-3">
+
+<i class="bi bi-people"></i>
+
+<p>
+{{ vehicle.seats or 5 }} seats
+</p>
+
+</div>
+
+
+
+<div class="col-md-3">
+
+<i class="bi bi-car-front"></i>
+
+<p>
+{{ vehicle.category }}
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- RENTAL PERIOD -->
+
+<div class="card shadow border-0 rounded-4 mt-4 p-4">
+
+
+<h4 class="mb-4">
+Rental Period
+</h4>
+
+
+
+<div class="row g-3">
+
+
+<div class="col-md-3">
+
+<label class="form-label">
+Pickup Date
+</label>
+
+
+<input 
+type="date"
+id="pickup_date"
+name="pickup_date"
+class="form-control"
+required
+>
+
+</div>
+
+
+
+
+
+<div class="col-md-3">
+
+
+<label class="form-label">
+Pickup Time
+</label>
+
+
+<input
+type="time"
+name="pickup_time"
+class="form-control"
+required
+>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-3">
+
+
+<label class="form-label">
+Dropoff Date
+</label>
+
+
+<input
+type="date"
+id="dropoff_date"
+name="dropoff_date"
+class="form-control"
+required
+>
+
+
+</div>
+
+
+
+
+
+
+<div class="col-md-3">
+
+
+<label class="form-label">
+Dropoff Time
+</label>
+
+
+<input
+type="time"
+name="dropoff_time"
+class="form-control"
+required
+>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- RIGHT SIDE SUMMARY -->
+
+<div class="col-lg-4">
+
+
+
+<div class="card shadow border-0 rounded-4 p-4 sticky-top"
+style="top:20px;">
+
+
+
+<h3>
+Booking Summary
+</h3>
+
+
+<hr>
+
+
+
+
+<div class="summary-item">
+
+<span>
+Rental days
+</span>
+
+
+<strong id="days">
+0
+</strong>
+
+
+</div>
+
+
+
+
+
+<div class="summary-item">
+
+
+<span>
+Vehicle rate
+</span>
+
+
+<strong>
+
+${{ vehicle.price_per_day }}/day
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+<div class="summary-item">
+
+
+<span>
+Rental cost
+</span>
+
+
+<strong>
+
+$<span id="total">
+0
+</span>
+
+</strong>
+
+
+</div>
+
+
+
+
+
+
+<div class="summary-item">
+
+
+<span>
+Taxes and fees
+</span>
+
+
+<strong>
+$85
+</strong>
+
+
+</div>
+
+
+
+
+<hr>
+
+
+
+<div class="total">
+
+
+<h4>
+Due today
+</h4>
+
+
+<h3>
+
+$
+
+<span id="final_total">
+0
+</span>
+
+</h3>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="mt-4 p-3 bg-light rounded-4">
+
+
+<h5>
+Cancellation policy
+</h5>
+
+
+<p class="text-success">
+
+✔ Full refund — Cancel free before pickup date.
+
+</p>
+
+
+
+<p class="text-danger">
+
+✖ No refund after rental starts.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="form-check mt-4">
+
+
+<input
+class="form-check-input"
+type="checkbox"
+required
+>
+
+
+<label class="form-check-label">
+
+I agree to the terms and conditions and terms of use
+
+</label>
+
+
+</div>
+
+
+
+
+
+<button 
+type="submit"
+class="btn btn-fast w-100 mt-4">
+
+Book & Pay Now with Card
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+</form>
+
+
+</div>
+
+
+
+<script>
+
+const pricePerDay = Number("{{ vehicle.price_per_day }}");
+
+
+const pickupDate = document.getElementById("pickup_date");
+
+const dropoffDate = document.getElementById("dropoff_date");
+
+
+const days = document.getElementById("days");
+
+const total = document.getElementById("total");
+
+const finalTotal = document.getElementById("final_total");
+
+
+
+function calculateBooking(){
+
+
+if(!pickupDate.value || !dropoffDate.value){
+return;
+}
+
+
+let start = new Date(pickupDate.value);
+
+let end = new Date(dropoffDate.value);
+
+
+let difference = end - start;
+
+
+let rentalDays = Math.ceil(
+difference / (1000 * 60 * 60 * 24)
+);
+
+
+
+if(rentalDays <= 0){
+
+rentalDays = 1;
+
+}
+
+
+
+let rentalCost = rentalDays * pricePerDay;
+
+
+let final = rentalCost + 85;
+
+
+
+days.innerHTML = rentalDays;
+
+total.innerHTML = rentalCost.toFixed(0);
+
+finalTotal.innerHTML = final.toFixed(0);
+
+
+
+}
+
+
+
+pickupDate.addEventListener(
+"change",
+calculateBooking
+);
+
+
+dropoffDate.addEventListener(
+"change",
+calculateBooking
+);
+
+
+
+</script>
+
+
+
+{% endblock %}
