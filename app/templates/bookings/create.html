@@ -1,70 +1,109 @@
 {% extends "base.html" %}
 
 
+{% block title %}
+Book {{ vehicle.brand.name if vehicle.brand else '' }} {{ vehicle.model_name }} | FAST CARS
+{% endblock %}
+
+
+
 {% block content %}
 
 
 <div class="container py-5">
 
 
-<div class="mb-4">
 
-<a href="{{ url_for('vehicles.catalog') }}" class="text-decoration-none">
-New booking
+<!-- BREADCRUMB -->
+
+<div class="mb-5">
+
+<a href="{{ url_for('vehicles.catalog') }}" 
+class="text-decoration-none text-muted">
+
+Vehicles
+
 </a>
 
-<span class="mx-2">›</span>
 
-<a href="{{ url_for('vehicles.catalog') }}" class="text-decoration-none">
-Car search
-</a>
-
-<span class="mx-2">›</span>
-
-<span>
-Booking page
+<span class="mx-2 text-muted">
+›
 </span>
+
+
+<a href="{{ url_for('vehicles.detail', vehicle_id=vehicle.id) }}"
+class="text-decoration-none text-muted">
+
+{{ vehicle.model_name }}
+
+</a>
+
+
+<span class="mx-2 text-muted">
+›
+</span>
+
+
+<span class="fw-semibold">
+Complete Booking
+</span>
+
 
 </div>
 
 
 
-<form method="POST" action="{{ url_for('bookings.create_booking', vehicle_id=vehicle.id) }}">
+
+
+<form method="POST" 
+action="{{ url_for('bookings.create_booking', vehicle_id=vehicle.id) }}">
+
 
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
 
-<div class="row g-5">
 
 
-<!-- LEFT SIDE -->
+
+<div class="row g-4">
+
+
+
+
+
+<!-- LEFT SECTION -->
 
 <div class="col-lg-8">
 
 
+
+
+
 <!-- VEHICLE CARD -->
 
-<div class="card shadow border-0 rounded-4 overflow-hidden">
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
 
 
-<div class="vehicle-box">
+
+<div class="position-relative">
 
 
 {% if vehicle.image %}
 
-<img 
-src="{{ url_for('static', filename=vehicle.image) }}"
-alt="{{ vehicle.model_name }}"
->
+
+<img src="{{ url_for('static', filename=vehicle.image) }}"
+class="w-100"
+style="height:380px; object-fit:cover;"
+alt="{{ vehicle.model_name }}">
 
 
 {% else %}
 
-<div class="no-image">
 
-<i class="bi bi-car-front"></i>
+<div class="bg-light d-flex justify-content-center align-items-center"
+style="height:380px;">
 
-<p>No image available</p>
+<i class="bi bi-car-front display-1 text-secondary"></i>
 
 </div>
 
@@ -72,85 +111,181 @@ alt="{{ vehicle.model_name }}"
 {% endif %}
 
 
+
 </div>
+
+
 
 
 
 <div class="p-4">
 
 
-<h2 class="fw-bold">
+
+<div class="d-flex justify-content-between align-items-center">
+
+
+<div>
+
+
+<h2 class="fw-bold mb-1">
+
 
 {{ vehicle.brand.name if vehicle.brand else "" }}
+
 {{ vehicle.model_name }}
+
 
 </h2>
 
 
 <p class="text-muted">
-or similar vehicle
+
+or similar vehicle class
+
 </p>
 
-
-
-
-<div class="row mt-4">
-
-
-<div class="col-md-3">
-
-<i class="bi bi-gear"></i>
-
-<p>
-{{ vehicle.transmission or "Automatic" }}
-</p>
 
 </div>
 
 
 
-<div class="col-md-3">
 
-<i class="bi bi-fuel-pump"></i>
+<span class="badge bg-dark rounded-pill px-3 py-2">
 
-<p>
-{{ vehicle.fuel_type or "Petrol" }}
-</p>
-
-</div>
-
-
-
-<div class="col-md-3">
-
-<i class="bi bi-people"></i>
-
-<p>
-{{ vehicle.seats or 5 }} seats
-</p>
-
-</div>
-
-
-
-<div class="col-md-3">
-
-<i class="bi bi-car-front"></i>
-
-<p>
 {{ vehicle.category }}
+
+</span>
+
+
+
+</div>
+
+
+
+
+
+
+<hr>
+
+
+
+
+<div class="row text-center mt-4">
+
+
+
+<div class="col-md-3">
+
+
+<i class="bi bi-gear fs-3 text-primary"></i>
+
+<p class="mt-2 mb-0">
+
+{{ vehicle.transmission or "Automatic" }}
+
 </p>
 
-</div>
+
+<small class="text-muted">
+
+Transmission
+
+</small>
 
 
 </div>
 
 
-</div>
+
+
+<div class="col-md-3">
+
+
+<i class="bi bi-fuel-pump fs-3 text-primary"></i>
+
+
+<p class="mt-2 mb-0">
+
+{{ vehicle.fuel_type or "Petrol" }}
+
+</p>
+
+
+<small class="text-muted">
+
+Fuel
+
+</small>
 
 
 </div>
+
+
+
+
+
+<div class="col-md-3">
+
+
+<i class="bi bi-people fs-3 text-primary"></i>
+
+
+<p class="mt-2 mb-0">
+
+{{ vehicle.seats or 5 }}
+
+</p>
+
+
+<small class="text-muted">
+
+Seats
+
+</small>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-3">
+
+
+<i class="bi bi-cash fs-3 text-primary"></i>
+
+
+<p class="mt-2 mb-0">
+
+${{ vehicle.price_per_day }}
+
+</p>
+
+
+<small class="text-muted">
+
+Per day
+
+</small>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</div>
+
 
 
 
@@ -160,22 +295,28 @@ or similar vehicle
 
 <!-- RENTAL PERIOD -->
 
-<div class="card shadow border-0 rounded-4 mt-4 p-4">
+<div class="card shadow-sm border-0 rounded-4 mt-4 p-4">
 
 
-<h4 class="mb-4">
+<h4 class="fw-bold mb-4">
+
 Rental Period
+
 </h4>
 
 
 
-<div class="row g-3">
+<div class="row g-4">
 
 
-<div class="col-md-3">
 
-<label class="form-label">
+<div class="col-md-6">
+
+
+<label class="form-label fw-semibold">
+
 Pickup Date
+
 </label>
 
 
@@ -183,30 +324,8 @@ Pickup Date
 type="date"
 id="pickup_date"
 name="pickup_date"
-class="form-control"
-required
->
-
-</div>
-
-
-
-
-
-<div class="col-md-3">
-
-
-<label class="form-label">
-Pickup Time
-</label>
-
-
-<input
-type="time"
-name="pickup_time"
-class="form-control"
-required
->
+class="form-control form-control-lg"
+required>
 
 
 </div>
@@ -215,11 +334,13 @@ required
 
 
 
-<div class="col-md-3">
+<div class="col-md-6">
 
 
-<label class="form-label">
+<label class="form-label fw-semibold">
+
 Dropoff Date
+
 </label>
 
 
@@ -227,9 +348,37 @@ Dropoff Date
 type="date"
 id="dropoff_date"
 name="dropoff_date"
+class="form-control form-control-lg"
+required>
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div class="row g-4 mt-2">
+
+
+
+<div class="col-md-6">
+
+
+<label class="form-label fw-semibold">
+
+Pickup Time
+
+</label>
+
+
+<input
+type="time"
+name="pickup_time"
 class="form-control"
-required
->
+required>
 
 
 </div>
@@ -237,13 +386,13 @@ required
 
 
 
+<div class="col-md-6">
 
 
-<div class="col-md-3">
+<label class="form-label fw-semibold">
 
-
-<label class="form-label">
 Dropoff Time
+
 </label>
 
 
@@ -251,8 +400,7 @@ Dropoff Time
 type="time"
 name="dropoff_time"
 class="form-control"
-required
->
+required>
 
 
 </div>
@@ -266,6 +414,8 @@ required
 
 
 
+
+
 </div>
 
 
@@ -276,8 +426,8 @@ required
 
 
 
+<!-- RIGHT SUMMARY -->
 
-<!-- RIGHT SIDE SUMMARY -->
 
 <div class="col-lg-4">
 
@@ -288,8 +438,10 @@ style="top:20px;">
 
 
 
-<h3>
+<h3 class="fw-bold">
+
 Booking Summary
+
 </h3>
 
 
@@ -298,35 +450,25 @@ Booking Summary
 
 
 
-<div class="summary-item">
+<div class="d-flex justify-content-between mb-3">
+
 
 <span>
-Rental days
+
+Rental duration
+
 </span>
 
 
-<strong id="days">
+<strong>
+
+<span id="days">
+
 0
-</strong>
 
-
-</div>
-
-
-
-
-
-<div class="summary-item">
-
-
-<span>
-Vehicle rate
 </span>
 
-
-<strong>
-
-${{ vehicle.price_per_day }}/day
+days
 
 </strong>
 
@@ -337,20 +479,49 @@ ${{ vehicle.price_per_day }}/day
 
 
 
-
-<div class="summary-item">
+<div class="d-flex justify-content-between mb-3">
 
 
 <span>
-Rental cost
+
+Daily rate
+
 </span>
 
 
 <strong>
 
-$<span id="total">
+${{ "%.2f"|format(vehicle.price_per_day) }}
+
+</strong>
+
+
+</div>
+
+
+
+
+
+<div class="d-flex justify-content-between mb-3">
+
+
+<span>
+
+Subtotal
+
+</span>
+
+
+<strong>
+
+$
+
+<span id="total">
+
 0
+
 </span>
+
 
 </strong>
 
@@ -361,17 +532,20 @@ $<span id="total">
 
 
 
-
-<div class="summary-item">
+<div class="d-flex justify-content-between mb-3">
 
 
 <span>
-Taxes and fees
+
+Taxes & fees
+
 </span>
 
 
 <strong>
+
 $85
+
 </strong>
 
 
@@ -384,23 +558,30 @@ $85
 
 
 
-<div class="total">
+
+<div class="bg-light rounded-4 p-3 text-center">
 
 
-<h4>
-Due today
-</h4>
+<p class="mb-1 text-muted">
+
+Total Due
+
+</p>
 
 
-<h3>
+<h2 class="fw-bold">
+
 
 $
 
 <span id="final_total">
+
 0
+
 </span>
 
-</h3>
+
+</h2>
 
 
 </div>
@@ -411,23 +592,26 @@ $
 
 
 
-<div class="mt-4 p-3 bg-light rounded-4">
+<div class="mt-4 p-3 border rounded-4">
 
 
-<h5>
-Cancellation policy
+<h5 class="fw-bold">
+
+Cancellation Policy
+
 </h5>
 
 
-<p class="text-success">
 
-✔ Full refund — Cancel free before pickup date.
+<p class="text-success small">
+
+✔ Free cancellation before pickup date.
 
 </p>
 
 
 
-<p class="text-danger">
+<p class="text-danger small">
 
 ✖ No refund after rental starts.
 
@@ -447,16 +631,17 @@ Cancellation policy
 <div class="form-check mt-4">
 
 
-<input
+<input 
 class="form-check-input"
 type="checkbox"
-required
->
+required>
 
 
-<label class="form-check-label">
+<label class="form-check-label small">
 
-I agree to the terms and conditions and terms of use
+
+I agree to the rental terms and conditions
+
 
 </label>
 
@@ -467,36 +652,51 @@ I agree to the terms and conditions and terms of use
 
 
 
+
 <button 
 type="submit"
-class="btn btn-fast w-100 mt-4">
+class="btn btn-fast w-100 rounded-pill mt-4 py-3">
 
-Book & Pay Now with Card
+
+Confirm & Reserve
+
 
 </button>
 
 
 
-</div>
-
-
 
 </div>
 
 
 
+</div>
+
+
+
+
 
 </div>
+
 
 
 </form>
 
 
+
+
 </div>
 
 
 
+
+
+
+
+
+
 <script>
+
 
 const pricePerDay = Number("{{ vehicle.price_per_day }}");
 
@@ -514,12 +714,17 @@ const finalTotal = document.getElementById("final_total");
 
 
 
+
+
 function calculateBooking(){
 
 
 if(!pickupDate.value || !dropoffDate.value){
+
 return;
+
 }
+
 
 
 let start = new Date(pickupDate.value);
@@ -527,12 +732,15 @@ let start = new Date(pickupDate.value);
 let end = new Date(dropoffDate.value);
 
 
+
 let difference = end - start;
+
 
 
 let rentalDays = Math.ceil(
 difference / (1000 * 60 * 60 * 24)
 );
+
 
 
 
@@ -544,6 +752,7 @@ rentalDays = 1;
 
 
 
+
 let rentalCost = rentalDays * pricePerDay;
 
 
@@ -551,11 +760,14 @@ let final = rentalCost + 85;
 
 
 
+
 days.innerHTML = rentalDays;
 
-total.innerHTML = rentalCost.toFixed(0);
 
-finalTotal.innerHTML = final.toFixed(0);
+total.innerHTML = rentalCost.toFixed(2);
+
+
+finalTotal.innerHTML = final.toFixed(2);
 
 
 
@@ -563,10 +775,13 @@ finalTotal.innerHTML = final.toFixed(0);
 
 
 
+
+
 pickupDate.addEventListener(
 "change",
 calculateBooking
 );
+
 
 
 dropoffDate.addEventListener(

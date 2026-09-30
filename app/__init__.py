@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-from flask import Flask, render_template
-from app.extensions import db, login_manager, migrate, csrf
-from app.models import User, Vehicle, VehicleBrand
-=======
 import click
-from flask import Flask, redirect, url_for
+from flask import Flask, render_template, redirect, url_for
 from flask_wtf.csrf import CSRFProtect
 from flask_mail import Mail
 from app.extensions import db, login_manager, migrate
-from app.models import User
->>>>>>> origin/dev1-auth
+from app.models import User, Vehicle, VehicleBrand
 
 mail = Mail()
 csrf = CSRFProtect()
@@ -19,32 +13,13 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 def create_app():
-<<<<<<< HEAD
-
-    from app.bookings import bookings_bp
-    app = Flask(
-        __name__,
-        instance_relative_config=True
-    )
-
-
-    app.config.from_pyfile("config.py")
-
-
-    db.init_app(app)
-    login_manager.init_app(app)
-    migrate.init_app(app)
-    csrf.init_app(app)
-
-
-=======
-    # 1. Instantiate Flask App First
-    app = Flask(__name__)
+    # 1. Instantiate Flask App
+    app = Flask(__name__, instance_relative_config=True)
 
     # 2. Load Configuration Settings
-    app.config.from_pyfile('../instance/config.py', silent=True)
+    app.config.from_pyfile('config.py', silent=True)
     
-    # Fallback/Default Mail Configuration (Overridden by instance/config.py if present)
+    # Fallback/Default Mail Configuration
     app.config.setdefault('MAIL_SERVER', 'smtp.gmail.com')
     app.config.setdefault('MAIL_PORT', 465)
     app.config.setdefault('MAIL_USE_TLS', False)
@@ -60,82 +35,35 @@ def create_app():
     login_manager.login_message_category = 'info'
     migrate.init_app(app, db)
     csrf.init_app(app)
-    mail.init_app(app)  # Initialized AFTER setting configs
->>>>>>> origin/dev1-auth
+    mail.init_app(app)
 
     # 4. Register Blueprints
     from app.auth.routes import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
     
     from app.testimonials.routes import testimonials_bp
-    app.register_blueprint(testimonials_bp)
+    app.register_blueprint(testimonials_bp, url_prefix='/testimonials')
 
-<<<<<<< HEAD
+    from app.vehicles.routes import vehicles_bp
+    app.register_blueprint(vehicles_bp, url_prefix='/vehicles')
 
-    @login_manager.user_loader
-    def load_user(user_id):
+    from app.bookings.routes import bookings_bp
+    app.register_blueprint(bookings_bp, url_prefix='/bookings')
 
-        return User.query.get(int(user_id))
+    from app.admin.routes import admin_bp  # Adjust import path if needed
+    app.register_blueprint(admin_bp, url_prefix='/admin')
 
-
-
-    from app.auth import auth_bp
-    from app.vehicles import vehicles_bp
-    from app.bookings import bookings_bp
-    from app.testimonials import testimonials_bp
-    from app.admin import admin_bp
-
-
-
-    app.register_blueprint(
-        auth_bp,
-        url_prefix="/auth"
-    )
-
-    app.register_blueprint(
-        vehicles_bp,
-        url_prefix="/vehicles"
-    )
-
-
-
-    app.register_blueprint(
-    bookings_bp,
-    url_prefix="/bookings"
-)
-
-
-    app.register_blueprint(
-        testimonials_bp,
-        url_prefix="/testimonials"
-    )
-
-
-    app.register_blueprint(
-        admin_bp,
-        url_prefix="/admin"
-    )
-
-
-
+    # 5. Routes
     @app.route("/")
     def home():
-
         vehicles = Vehicle.query.filter_by(
             availability_status="available"
         ).limit(4).all()
-
 
         return render_template(
             "landing.html",
             vehicles=vehicles
         )
-
-=======
-    # 5. Root Route
-    @app.route('/')
-    def index():
-        return redirect(url_for('auth.index'))
 
     # 6. CLI Commands
     @app.cli.command('create-admin')
@@ -161,6 +89,5 @@ def create_app():
         db.session.add(admin)
         db.session.commit()
         click.echo(f'Admin account created for {email}!')
->>>>>>> origin/dev1-auth
 
     return app

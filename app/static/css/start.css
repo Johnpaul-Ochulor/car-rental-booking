@@ -1717,6 +1717,37 @@ box-shadow:
     /* Swipe Left */
     transform: translateX(-8px);
 }
+
+
+/* Profile Dropdown Styling */
+.profile-dropdown-container:hover .profile-dropdown-menu {
+    display: block;
+}
+
+.profile-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #1e293b;
+    min-width: 160px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.profile-dropdown-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: #f8fafc !important;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.profile-dropdown-menu a:hover {
+    background: #8b5cf6;
+}
 /* --- Desktop & Tablet (Laptops/Large Screens) --- */
 @media (min-width: 769px) {
     .hamburger {

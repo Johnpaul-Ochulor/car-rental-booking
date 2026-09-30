@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Bookings | FAST CARS
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container py-5">
+
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+
+        <div>
+            <h1 class="fw-bold">
+                My Bookings
+            </h1>
+
+            <p class="text-muted">
+                View and manage all your vehicle reservations.
+            </p>
+        </div>
+
+
+        <a href="{{ url_for('vehicles.catalog') }}"
+           class="btn btn-fast rounded-pill px-4">
+
+            <i class="bi bi-plus-circle"></i>
+            New Booking
+
+        </a>
+
+
+    </div>
+
+
+
+
+{% if bookings %}
+
+
+<div class="row g-4">
+
+
+{% for booking in bookings %}
+
+
+<div class="col-lg-6">
+
+
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+
+    <!-- IMAGE -->
+
+    {% if booking.vehicle and booking.vehicle.image %}
+
+    <img src="{{ url_for('static', filename=booking.vehicle.image) }}"
+         class="w-100"
+         style="height:260px; object-fit:cover;"
+         alt="Vehicle">
+
+
+    {% else %}
+
+
+    <div class="bg-light d-flex justify-content-center align-items-center"
+         style="height:260px;">
+
+        <i class="bi bi-car-front-fill fs-1 text-secondary"></i>
+
+    </div>
+
+
+    {% endif %}
+
+
+
+
+
+<div class="p-4">
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+
+<h4 class="fw-bold mb-0">
+
+
+{% if booking.vehicle and booking.vehicle.brand %}
+
+{{ booking.vehicle.brand.name }}
+
+{% endif %}
+
+
+{{ booking.vehicle.model_name if booking.vehicle else "Vehicle" }}
+
+
+</h4>
+
+
+
+<span class="badge rounded-pill bg-success">
+
+{{ booking.status or "Confirmed" }}
+
+</span>
+
+
+</div>
+
+
+
+
+
+<p class="text-muted mb-4">
+
+Booking Reference:
+<strong>#{{ booking.id }}</strong>
+
+</p>
+
+
+
+
+
+<div class="row text-center mb-4">
+
+
+<div class="col">
+
+<i class="bi bi-car-front fs-4"></i>
+
+<p class="small text-muted mb-0">
+Vehicle
+</p>
+
+</div>
+
+
+
+<div class="col">
+
+<i class="bi bi-cash fs-4"></i>
+
+
+<p class="small text-muted mb-0">
+
+{% if booking.vehicle %}
+
+${{ booking.vehicle.price_per_day }}/day
+
+{% else %}
+
+N/A
+
+{% endif %}
+
+
+</p>
+
+
+</div>
+
+
+
+
+<div class="col">
+
+<i class="bi bi-check-circle fs-4"></i>
+
+<p class="small text-muted mb-0">
+{{ booking.status or "Active" }}
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="d-flex justify-content-between align-items-center">
+
+
+<a href="{{ url_for('vehicles.detail',
+vehicle_id=booking.vehicle.id) if booking.vehicle else '#' }}"
+class="btn btn-outline-dark rounded-pill px-4">
+
+
+View Vehicle
+
+</a>
+
+
+
+<span class="fw-bold text-primary">
+
+FAST CARS
+
+</span>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+{% endfor %}
+
+
+</div>
+
+
+
+{% else %}
+
+
+
+<div class="text-center py-5">
+
+
+<i class="bi bi-calendar-x display-4 text-muted"></i>
+
+
+<h3 class="fw-bold mt-3">
+
+No Bookings Yet
+
+</h3>
+
+
+<p class="text-muted">
+
+You haven't booked any vehicle. Explore our premium fleet today.
+
+</p>
+
+
+
+<a href="{{ url_for('vehicles.catalog') }}"
+class="btn btn-fast rounded-pill px-5">
+
+
+Browse Cars
+
+
+</a>
+
+
+</div>
+
+
+
+{% endif %}
+
+
+
+</div>
+
+
+{% endblock %}

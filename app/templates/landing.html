@@ -34,6 +34,7 @@
             <li><a href="#WORKS">How it Works</a></li>
             <li><a href="#Human">Reviews</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="{{ url_for('auth.login') }}">Login</a></li>
 
             <li>
                {% if current_user.is_authenticated %}
