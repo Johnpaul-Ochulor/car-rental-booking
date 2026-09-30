@@ -56,7 +56,7 @@ Complete Booking
 
 
 <form method="POST" 
-action="{{ url_for('bookings.create_booking', vehicle_id=vehicle.id) }}">
+action="{{ url_for('bookings.submit_booking', vehicle_id=vehicle.id) }}">
 
 
 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

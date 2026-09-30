@@ -143,6 +143,25 @@ class Booking(db.Model):
     status = db.Column(db.String(20), default="pending")  # pending/confirmed/cancelled/completed
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+class Payment(db.Model):
+    __tablename__ = "payments"
+
+    id = db.Column(db.Integer, primary_key=True)
+    booking_id = db.Column(db.Integer, db.ForeignKey("bookings.id"), nullable=False)
+    booking_reference = db.Column(
+        db.String(100), unique=True, nullable=False
+    )  # Unique booking ref
+    customer_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+    reference = db.Column(
+        db.String(100), unique=True, nullable=True
+    )  # Unique Paystack ref
+    amount = db.Column(db.Integer, nullable=False)  # Amount in Kobo
+    status = db.Column(db.String(20), default="pending")  # pending, success, failed
+
+    paid_at = db.Column(db.DateTime, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 
 class Testimonial(db.Model):
     __tablename__ = "testimonials"

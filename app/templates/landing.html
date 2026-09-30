@@ -35,26 +35,23 @@
             <li><a href="#Human">Reviews</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+             <li class="nav-item">
+                            <a class="btn btn-outline-light btn-sm ms-lg-2" href="{{ url_for('auth.register') }}">Register</a>
+                        </li>
 
-            <li>
+      
                {% if current_user.is_authenticated %}
 
-<div class="dropdown">
-
-<button class="profile-btn">
-<i class="bi bi-person-circle"></i>
-</button>
 
 
-<div class="dropdown-menu">
 
-<a href="#">
+<!-- <a href="#">
 Profile
-</a>
+</a> -->
 
-<a href="#">
+<!-- <a href="#">
 My Bookings
-</a>
+</a> -->
 
 <a href="{{ url_for('auth.logout') }}">
 Logout
@@ -69,9 +66,9 @@ Logout
 {% else %}
 
 
-<button class="Sign">
+<!-- <button class="Sign">
 Sign Up
-</button>
+</button> -->
 
 
 {% endif %}

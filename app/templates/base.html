@@ -77,11 +77,10 @@
                 </li>
 
                 {% if current_user.is_authenticated %}
-
                     <li class="nav-item">
                         <a
                             class="nav-link"
-                            href="{{ url_for('bookings.index') }}"
+                            href="{{ url_for('bookings.user_bookings') }}"
                         >
                             My Bookings
                         </a>
@@ -109,14 +108,14 @@
 
                 {% else %}
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a
                             class="nav-link"
                             href="{{ url_for('auth.login') }}"
                         >
                             Login
                         </a>
-                    </li>
+                    </li> -->
 
                 {% endif %}
 
