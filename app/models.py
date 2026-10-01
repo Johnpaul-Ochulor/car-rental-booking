@@ -140,8 +140,14 @@ class Booking(db.Model):
     return_date = db.Column(db.Date, nullable=False)
     pickup_location = db.Column(db.String(150))
     total_price = db.Column(db.Numeric(10, 2))
-    status = db.Column(db.String(20), default="pending")  # pending/confirmed/cancelled/completed
+    reference = db.Column(
+        db.String(100), unique=True, nullable=False
+    )  # Unique booking ref
+    status = db.Column(
+        db.String(20), default="pending"
+    )  # pending/confirmed/cancelled/completed
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    payments = db.relationship("Payment", backref="booking", lazy=True)
 
 class Payment(db.Model):
     __tablename__ = "payments"

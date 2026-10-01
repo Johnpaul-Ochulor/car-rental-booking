@@ -10,11 +10,17 @@ from app.vehicles.forms import BrandForm, VehicleForm
 def save_image(file_storage, folder):
     if not file_storage:
         return None
-    filename = secure_filename(file_storage.filename)
-    upload_path = os.path.join(current_app.root_path, 'static', 'uploads', folder)
-    os.makedirs(upload_path, exist_ok=True)
-    file_storage.save(os.path.join(upload_path, filename))
-    return f"uploads/{folder}/{filename}"
+    if isinstance(file_storage, str):
+        return file_storage
+    if hasattr(file_storage, 'filename') and file_storage.filename:
+        filename = secure_filename(file_storage.filename)
+        if not filename:
+            return None
+        upload_path = os.path.join(current_app.root_path, 'static', 'uploads', folder)
+        os.makedirs(upload_path, exist_ok=True)
+        file_storage.save(os.path.join(upload_path, filename))
+        return f"uploads/{folder}/{filename}"
+    return None
 
 # ==================== PUBLIC ROUTES ====================
 @vehicles_bp.route('/search')
@@ -153,8 +159,10 @@ def manage_vehicle(vehicle_id=None):
         vehicle.availability_status = form.availability_status.data
         vehicle.description = form.description.data
 
-        if form.image.data:
-            vehicle.image = save_image(form.image.data, 'vehicles')
+        if form.image.data and hasattr(form.image.data, 'filename') and form.image.data.filename:
+            saved_image = save_image(form.image.data, 'vehicles')
+            if saved_image:
+                vehicle.image = saved_image
 
         db.session.commit()
         flash('Vehicle saved successfully!', 'success')

@@ -136,10 +136,15 @@ def submit_booking(vehicle_id):
     pickup_date_str = request.form.get("pickup_date")
     dropoff_date_str = request.form.get("dropoff_date")
     location = request.form.get("location")
+    terms = request.form.get("terms")
     current_date = date.today()
 
     if not pickup_date_str or not dropoff_date_str or not location:
         flash("Pickup date, drop-off date, and location are required.", "danger")
+        return render_template("bookings/create.html", vehicle=vehicle)
+
+    if not terms:
+        flash("You must agree to the Terms & Conditions before completing your booking.", "warning")
         return render_template("bookings/create.html", vehicle=vehicle)
 
     try:

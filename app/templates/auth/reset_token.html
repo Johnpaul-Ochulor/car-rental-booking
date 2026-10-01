@@ -18,7 +18,8 @@
                 <!-- New Password -->
                 <div class="mb-3 auth-input-group">
                     <i class="bi bi-lock input-icon"></i>
-                    {{ form.password(class="form-control" + (" is-invalid" if form.password.errors else ""), placeholder="New Password") }}
+                    {{ form.password(class="form-control has-toggle" + (" is-invalid" if form.password.errors else ""), placeholder="New Password") }}
+                    <i class="bi bi-eye-slash password-toggle-icon" title="Toggle password visibility"></i>
                     {% for error in form.password.errors %}
                         <div class="invalid-feedback d-block">{{ error }}</div>
                     {% endfor %}
@@ -27,7 +28,8 @@
                 <!-- Confirm New Password -->
                 <div class="mb-3 auth-input-group">
                     <i class="bi bi-lock-fill input-icon"></i>
-                    {{ form.confirm_password(class="form-control" + (" is-invalid" if form.confirm_password.errors else ""), placeholder="Confirm New Password") }}
+                    {{ form.confirm_password(class="form-control has-toggle" + (" is-invalid" if form.confirm_password.errors else ""), placeholder="Confirm New Password") }}
+                    <i class="bi bi-eye-slash password-toggle-icon" title="Toggle password visibility"></i>
                     {% for error in form.confirm_password.errors %}
                         <div class="invalid-feedback d-block">{{ error }}</div>
                     {% endfor %}

@@ -1,16 +1,61 @@
 {% extends "base.html" %}
+
+{% block title %}
+Share Your Experience | FAST CARS
+{% endblock %}
+
 {% block content %}
-<div class="container my-4" style="max-width:600px">
-  <h2>Share your experience</h2>
-  <form method="post" novalidate>
-    {{ form.hidden_tag() }}
-    <div class="mb-3">{{ form.message.label(class="form-label") }}
-      {{ form.message(class="form-control", rows=4) }}
-      {% for e in form.message.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>
-    <div class="mb-3">{{ form.rating.label(class="form-label") }}
-      {{ form.rating(class="form-control", min=1, max=5, type="number") }}
-      {% for e in form.rating.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>
-    {{ form.submit(class="btn btn-primary") }}
-  </form>
+<div class="auth-wrapper py-5" style="background: radial-gradient(circle at top right, #2b1b3d 0%, #111111 60%); min-height: 85vh;">
+    <div class="container d-flex align-items-center justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+            
+            <div class="text-center mb-4">
+                <span class="badge bg-warning bg-opacity-25 text-warning border border-warning rounded-pill px-3 py-1 mb-2 fw-semibold text-uppercase">Client Feedback</span>
+                <h1 class="fw-bold text-white display-6 mb-1">Share Your Experience</h1>
+                <p class="text-white-50 small">Tell us about your rental experience with FAST CARS</p>
+            </div>
+
+            <div class="auth-card">
+                <form method="post" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <!-- Rating Input -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-white d-block">Rating (1 - 5 Stars)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-warning">
+                                <i class="bi bi-star-fill"></i>
+                            </span>
+                            {{ form.rating(class="form-control" + (" is-invalid" if form.rating.errors else ""), min=1, max=5, type="number", value=5) }}
+                        </div>
+                        {% for e in form.rating.errors %}
+                            <div class="invalid-feedback d-block">{{ e }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Message Input -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-white">Your Review / Testimonial</label>
+                        {{ form.message(class="form-control" + (" is-invalid" if form.message.errors else ""), rows=5, placeholder="Describe your experience with the vehicle, booking process, and customer service...") }}
+                        {% for e in form.message.errors %}
+                            <div class="invalid-feedback d-block">{{ e }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-fast btn-lg rounded-pill py-3 fw-bold">
+                            <i class="bi bi-send-check-fill me-2"></i>Submit Testimonial
+                        </button>
+                        <a href="{{ url_for('testimonials.list_testimonials') }}" class="btn btn-outline-light rounded-pill py-2 text-center text-decoration-none small mt-2">
+                            <i class="bi bi-arrow-left me-1"></i>Cancel & Back to Reviews
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
 </div>
 {% endblock %}

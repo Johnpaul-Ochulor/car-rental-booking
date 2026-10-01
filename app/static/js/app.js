@@ -41,7 +41,7 @@ price:"₦180,000"
 
 
 {
-name:"BMW M3",
+name:"Mitbuishi Concept RA",
 image:"/static/Images/cars/Dark.jpg",
 description:"Feel the power of Japanese engineering.",
 power:"565 HP",
@@ -111,23 +111,17 @@ hero.style.backgroundImage=
 
 
 
-document.getElementById("carName").textContent=car.name;
+let carNameEl = document.getElementById("carName");
+let descEl = document.getElementById("description");
+let speedEl = document.getElementById("speed");
+let gearEl = document.getElementById("gear");
+let priceEl = document.getElementById("price");
 
-
-document.getElementById("description").textContent=
-car.description;
-
-
-document.getElementById("speed").textContent=
-car.power;
-
-
-document.getElementById("gear").textContent=
-car.gear;
-
-
-document.getElementById("price").textContent=
-car.price;
+if (carNameEl) carNameEl.textContent = car.name;
+if (descEl) descEl.textContent = car.description;
+if (speedEl) speedEl.textContent = car.power;
+if (gearEl) gearEl.textContent = car.gear;
+if (priceEl) priceEl.textContent = car.price;
 
 
 

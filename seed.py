@@ -7,13 +7,17 @@ from app.models import VehicleBrand, Vehicle
 app = create_app()
 
 with app.app_context():
+    db.create_all()
     if not User.query.filter_by(email="admin@fastcars.com").first():
         admin = User(name="Admin", email="admin@fastcars.com", role="admin")
         admin.set_password("Admin123!")
         db.session.add(admin)
 
-    db.session.add(Subscriber(email="test1@example.com"))
-    db.session.add(ContactQuery(name="John Doe", email="john@example.com", message="Do you rent SUVs?"))
+    if not Subscriber.query.filter_by(email="test1@example.com").first():
+        db.session.add(Subscriber(email="test1@example.com"))
+
+    if not ContactQuery.query.filter_by(email="john@example.com").first():
+        db.session.add(ContactQuery(name="John Doe", email="john@example.com", message="Do you rent SUVs?"))
 
     db.session.commit()
     print("Seed complete. Login with admin@fastcars.com / Admin123!")
@@ -70,6 +74,7 @@ with app.app_context():
                 fuel_type="Petrol",
                 seats=5,
                 price_per_day=50000,
+                image="Images/cars/Dark.jpg",
                 availability_status="available",
                 description="Comfortable sedan suitable for business and family trips."
             ),
@@ -83,6 +88,7 @@ with app.app_context():
                 fuel_type="Petrol",
                 seats=7,
                 price_per_day=120000,
+                image="Images/cars/bmw.webp",
                 availability_status="available",
                 description="Luxury SUV with premium interior and powerful performance."
             ),
@@ -96,6 +102,7 @@ with app.app_context():
                 fuel_type="Hybrid",
                 seats=5,
                 price_per_day=100000,
+                image="Images/cars/MERCEDES-BENZ-E-Class-5571_31.jpg",
                 availability_status="available",
                 description="Executive vehicle designed for comfort."
             )

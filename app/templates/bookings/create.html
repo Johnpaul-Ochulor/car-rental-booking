@@ -359,55 +359,31 @@ required>
 </div>
 
 
-
 <div class="row g-4 mt-2">
 
-
-
-<div class="col-md-6">
-
+<div class="col-md-12">
 
 <label class="form-label fw-semibold">
 
-Pickup Time
+Pickup & Dropoff Location
 
 </label>
 
-
 <input
-type="time"
-name="pickup_time"
-class="form-control"
+type="text"
+id="location"
+name="location"
+class="form-control form-control-lg"
+placeholder="e.g. Victoria Island, Lagos"
+value="Lagos, Nigeria"
 required>
 
+</div>
 
 </div>
 
 
 
-
-<div class="col-md-6">
-
-
-<label class="form-label fw-semibold">
-
-Dropoff Time
-
-</label>
-
-
-<input
-type="time"
-name="dropoff_time"
-class="form-control"
-required>
-
-
-</div>
-
-
-
-</div>
 
 
 </div>
@@ -630,36 +606,28 @@ Cancellation Policy
 
 <div class="form-check mt-4">
 
-
 <input 
 class="form-check-input"
 type="checkbox"
+id="terms"
+name="terms"
+value="agree"
 required>
 
-
-<label class="form-check-label small">
-
+<label class="form-check-label small" for="terms">
 
 I agree to the rental terms and conditions
 
-
 </label>
 
-
 </div>
-
-
-
-
 
 
 <button 
 type="submit"
 class="btn btn-fast w-100 rounded-pill mt-4 py-3">
 
-
-Confirm & Reserve
-
+<i class="bi bi-credit-card me-2"></i>Book & Pay Now
 
 </button>
 
